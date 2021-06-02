@@ -1,11 +1,11 @@
 <?php
 
-interface converter
+interface Converter
 {
     public function convert($data);
 }
 
-class JsonToXmlConverterClass implements converter
+class JsonToXmlConverterClass implements Converter
 {
 	// public function __construct()
 	// {
@@ -20,10 +20,15 @@ class JsonToXmlConverterClass implements converter
 
 }
 
-class XmlToJsonConverterClass implements converter
+class XmlToJsonConverterClass implements Converter
 {
 	public function convert($data)
 	{
 		//implement conversion from xml to json
 	}
+}
+
+function convertData(Converter $converter)
+{
+	return $converter->convert([]);
 }
