@@ -2,7 +2,9 @@
 database nosql_db
 System <- API : json_data
 System -> System : run validation checks for required fields
-System -> System : run validation checks for field_map if any
+opt if field_map
+    System -> System : run validation checks for field_map if any
+end
 System -> API : return error if any validation fails
 System -> System : convert json to xml
 System -> API : return exceptions if any
