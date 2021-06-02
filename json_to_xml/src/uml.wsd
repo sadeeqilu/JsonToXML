@@ -1,8 +1,17 @@
 @startuml
+database nosql_db
 System <- API : json_data
-API <- System : xml_response
-System <- API : json_data
-API <- System : json_response
-System <- API : xml_data
-API <- System : json_response
+System -> System : run validation checks for required fields
+System -> System : run validation checks for field_map if any
+System -> API : return error if any validation fails
+System -> System : convert json to xml
+System -> API : return exceptions if any
+TransferToAPI <- System : xml_response
+TransferToAPI -> System : send xml_data
+System -> System : convert xml to json
+System -> TransferToAPI : json_response
+TransferToAPI -> DbAPI : send json data
+DbAPI -> nosql_db : save data
+DbAPI -> TransferToAPI : success_response
+TransferToAPI -> API : success_response
 @enduml

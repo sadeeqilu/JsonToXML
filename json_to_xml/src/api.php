@@ -32,3 +32,6 @@ function convertData(Converter $converter)
 {
 	return $converter->convert([]);
 }
+
+// flow diagram
+// component in sequence diagram
