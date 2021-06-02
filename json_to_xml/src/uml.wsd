@@ -1,0 +1,8 @@
+@startuml
+System <- API : json_data
+API <- System : xml_response
+System <- API : json_data
+API <- System : json_response
+System <- API : xml_data
+API <- System : json_response
+@enduml
