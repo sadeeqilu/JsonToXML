@@ -5,7 +5,6 @@ use Dotenv\Dotenv;
 $dotenv = new DotEnv(__DIR__);
 $dotenv->load();
 
-// test code, should output:
-// api://default
-// when you run $ php bootstrap.php
+
+// run $ php bootstrap.php to test env
 echo getenv('URL');
