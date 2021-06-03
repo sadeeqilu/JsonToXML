@@ -46,7 +46,7 @@ class  Validator {
 
 	static function badcontent($fieldname, $val) {
 		if (!preg_match("/^[a-zA-Z0-9 '-]*$/",$val)) {
-			self::throwError('Bad content',905)	
+			self::throwError('Bad content',905);
 		}
 	}
 
