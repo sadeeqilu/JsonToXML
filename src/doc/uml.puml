@@ -1,17 +1,33 @@
 @startuml
 database nosql_db
 System <- API : json_data
+System -> DbAPI : send message data
+DbAPI -> nosql_db : save data
 System -> System : run validation checks for required fields
 opt if field_map
     System -> System : run validation checks for field_map if any
 end
-System -> API : return error if any validation fails
+System -> DbAPI : send message data
+DbAPI -> nosql_db : save data
+opt if validation fails
+    System -> API : return error
+end
+System -> DbAPI : send message data
+DbAPI -> nosql_db : save data
 System -> System : convert json to xml
-System -> API : return exceptions if any
+opt if any exceptions
+    System -> API : return exceptions
+end
+System -> DbAPI : send message data
+DbAPI -> nosql_db : save data
 TransferToAPI <- System : xml_response
 TransferToAPI -> System : send xml_data
+System -> DbAPI : send message data
+DbAPI -> nosql_db : save data
 System -> System : convert xml to json
 System -> TransferToAPI : json_response
+System -> DbAPI : send message data
+DbAPI -> nosql_db : save data
 TransferToAPI -> DbAPI : send json data
 DbAPI -> nosql_db : save data
 DbAPI -> TransferToAPI : success_response
