@@ -16,8 +16,11 @@ alt if successful validation
     alt if no exceptions
         System --> Transfer_API : sends xml data
         activate Transfer_API
+        activate nosql
+        !includesub db.puml!DB
     else exceptions
         System --> External_API : send exception
+        !includesub db.puml!DB
     end
 else if error
     System --> External_API : Send error
@@ -29,6 +32,5 @@ alt if no exceptions
 else exceptions
     System --> External_API : send exception
 end
-ref over System, Transfer_API, nosql : Send actions data to db always
-
+!includesub db.puml!DB
 @enduml

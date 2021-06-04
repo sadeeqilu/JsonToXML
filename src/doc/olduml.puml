@@ -1,8 +1,6 @@
-
 @startuml
 database nosql_db
 System <- API : json_data
-ref happens after every transaction
 System -> DbAPI : send message data
 DbAPI -> nosql_db : save data
 System -> System : run validation checks for required fields
