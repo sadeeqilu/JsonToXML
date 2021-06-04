@@ -1,35 +1,34 @@
 @startuml
-database nosql_db
-System <- API : json_data
-System -> DbAPI : send message data
-DbAPI -> nosql_db : save data
-System -> System : run validation checks for required fields
-opt if field_map
-    System -> System : run validation checks for field_map if any
+actor External_API
+participant System
+participant Transfer_API
+database nosql
+
+External_API -> System : Sends request
+activate External_API
+activate System
+System -> System : input validation checks
+opt if field map
+    System -> System : validation for field map
 end
-System -> DbAPI : send message data
-DbAPI -> nosql_db : save data
-opt if validation fails
-    System -> API : return error
+alt if successful validation
+    System -> System : convert json to xml
+    alt if no exceptions
+        System --> Transfer_API : sends xml data
+        activate Transfer_API
+    else exceptions
+        System --> External_API : send exception
+    end
+else if error
+    System --> External_API : Send error
 end
-System -> DbAPI : send message data
-DbAPI -> nosql_db : save data
-System -> System : convert json to xml
-opt if any exceptions
-    System -> API : return exceptions
-end
-System -> DbAPI : send message data
-DbAPI -> nosql_db : save data
-TransferToAPI <- System : xml_response
-TransferToAPI -> System : send xml_data
-System -> DbAPI : send message data
-DbAPI -> nosql_db : save data
+Transfer_API --> System : sends xml response
 System -> System : convert xml to json
-System -> TransferToAPI : json_response
-System -> DbAPI : send message data
-DbAPI -> nosql_db : save data
-TransferToAPI -> DbAPI : send json data
-DbAPI -> nosql_db : save data
-DbAPI -> TransferToAPI : success_response
-TransferToAPI -> API : success_response
+alt if no exceptions
+    System --> External_API : sends json response
+else exceptions
+    System --> External_API : send exception
+end
+ref over System, Transfer_API, nosql : Send actions data to db always
+
 @enduml
