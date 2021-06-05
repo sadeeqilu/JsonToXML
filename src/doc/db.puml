@@ -3,7 +3,6 @@
 participant System
 participant Transfer_API
 database nosql
-ref over System, Transfer_API, nosql : Saves step to db
 System -> nosql : save step
 nosql --> System : send html response with json as body
 !endsub

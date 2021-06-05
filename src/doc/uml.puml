@@ -8,38 +8,60 @@ External_API -> System : Sends request
 activate External_API
 activate System  
 activate nosql
-!includesub db.puml!DB
+ref over System, Transfer_API, nosql
+ Saves step to db
+end ref
 System -> System : input validation checks
-!includesub db.puml!DB
+ref over System, Transfer_API, nosql
+ Saves step to db
+end ref
 opt if field map
     System -> System : validation for field map
-    !includesub db.puml!DB
-end
+    ref over System, Transfer_API, nosql
+        Saves step to db
+    end ref
+    end
 alt if successful validation
     System -> System : convert json to xml
-    !includesub db.puml!DB
+    ref over System, Transfer_API, nosql
+        Saves step to db
+    end ref  
     alt if no exceptions
         System --> Transfer_API : sends xml data
-        !includesub db.puml!DB
+        ref over System, Transfer_API, nosql
+            Saves step to db
+        end ref  
         activate Transfer_API
     else exceptions
         System --> External_API : send exception
-        !includesub db.puml!DB
-    end
+    ref over System, Transfer_API, nosql
+        Saves step to db
+    end ref
+end
 else if error
     System --> External_API : Send error
-    !includesub db.puml!DB
+    ref over System, Transfer_API, nosql
+        Saves step to db
+    end ref
 end
 Transfer_API --> System : sends xml response
-!includesub db.puml!DB
+ref over System, Transfer_API, nosql
+ Saves step to db
+end ref
 System -> System : convert xml to json
-!includesub db.puml!DB
+ref over System, Transfer_API, nosql
+ Saves step to db
+end ref
 alt if no exceptions
     System --> External_API : sends json response
-    !includesub db.puml!DB
+    ref over System, Transfer_API, nosql
+        Saves step to db
+    end ref
 else exceptions
     System --> External_API : send exception
-    !includesub db.puml!DB
+    ref over System, Transfer_API, nosql
+        Saves step to db
+    end ref
 end
 deactivate External_API
 deactivate System
