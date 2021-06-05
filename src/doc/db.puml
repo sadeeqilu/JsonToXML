@@ -4,6 +4,11 @@ participant System
 participant Transfer_API
 database nosql
 System -> nosql : save step
-nosql --> System : send html response with json as body
+alt if successful
+    nosql --> System : send html response with json as body
+else
+    nosql -> nosql : save error message
+    nosql --> System : send error message
+end
 !endsub
 @enduml
