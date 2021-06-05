@@ -1,9 +1,10 @@
 @startuml
 !startsub DB
+participant System
 participant Transfer_API
 database nosql
-ref over Transfer_API, nosql : Send actions data to db
-opt if error encountered
-    nosql -> Transfer_API : send error
+ref over System, Transfer_API, nosql : Saves step to db
+System -> nosql : save step
+nosql --> System : send html response with json as body
 !endsub
 @enduml

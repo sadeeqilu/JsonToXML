@@ -6,31 +6,41 @@ database nosql
 
 External_API -> System : Sends request
 activate External_API
-activate System
+activate System  
+activate nosql
+!includesub db.puml!DB
 System -> System : input validation checks
+!includesub db.puml!DB
 opt if field map
     System -> System : validation for field map
+    !includesub db.puml!DB
 end
 alt if successful validation
     System -> System : convert json to xml
+    !includesub db.puml!DB
     alt if no exceptions
         System --> Transfer_API : sends xml data
-        activate Transfer_API
-        activate nosql
         !includesub db.puml!DB
+        activate Transfer_API
     else exceptions
         System --> External_API : send exception
         !includesub db.puml!DB
     end
 else if error
     System --> External_API : Send error
+    !includesub db.puml!DB
 end
 Transfer_API --> System : sends xml response
+!includesub db.puml!DB
 System -> System : convert xml to json
+!includesub db.puml!DB
 alt if no exceptions
     System --> External_API : sends json response
+    !includesub db.puml!DB
 else exceptions
     System --> External_API : send exception
+    !includesub db.puml!DB
 end
-!includesub db.puml!DB
+deactivate External_API
+deactivate System
 @enduml
