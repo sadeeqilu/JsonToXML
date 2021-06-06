@@ -43,10 +43,14 @@ class XmlToJsonConverterClass implements Converter
 {
 	public function convert($data)
 	{
-		//implement conversion from xml to json
-		$xml = simplexml_load_string($data);
-		$json = json_encode($xml);
-		print $json;
+		try{
+			//implement conversion from xml to json
+			$xml = simplexml_load_string($data);
+			$json = json_encode($xml);
+			print $json;
+		}catch(\Exception $e){
+			echo $e->getMessage();
+		}
 	}
 }
 
