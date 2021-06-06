@@ -7,7 +7,6 @@ database nosql
 External_API -> System : Sends request
 activate External_API
 activate System  
-activate nosql
 ref over System, Transfer_API, nosql
  Saves step to db
 end ref
@@ -65,4 +64,12 @@ else exceptions
 end
 deactivate External_API
 deactivate System
+activate nosql
+System -> nosql : transfer folder contents to db
+alt if successful
+    nosql --> System : return successful response
+else errors
+    nosql --> System : send errors encountered
+end
+deactivate nosql
 @enduml

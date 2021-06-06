@@ -1,14 +1,7 @@
 @startuml
 !startsub DB
 participant System
-participant Transfer_API
-database nosql
-System -> nosql : save step
-alt if successful
-    nosql --> System : send html response with json as body
-else
-    nosql -> nosql : save error message
-    nosql --> System : send error message
-end
+participant folder
+System -> folder : save step
 !endsub
 @enduml
