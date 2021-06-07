@@ -1,75 +1,78 @@
 @startuml
 actor External_API
 participant System
+participant DB_API
 participant Transfer_API
 database nosql
 
 External_API -> System : Sends request
 activate External_API
 activate System  
-ref over System, Transfer_API, nosql
- Saves step to db
-end ref
+ref over System, DB_API
+            Saves step to db
+end ref  
 System -> System : input validation checks
-ref over System, Transfer_API, nosql
- Saves step to db
-end ref
+ref over System, DB_API
+            Saves step to db
+end ref  
 opt if field map
     System -> System : validation for field map
-    ref over System, Transfer_API, nosql
-        Saves step to db
-    end ref
+    ref over System, DB_API
+            Saves step to db
+end ref  
     end
 alt if successful validation
     System -> System : convert json to xml
-    ref over System, Transfer_API, nosql
-        Saves step to db
-    end ref  
+   ref over System, DB_API
+            Saves step to db
+end ref  
     alt if no exceptions
         System --> Transfer_API : sends xml data
-        ref over System, Transfer_API, nosql
+        ref over System, DB_API
             Saves step to db
         end ref  
         activate Transfer_API
     else exceptions
         System --> External_API : send exception
-    ref over System, Transfer_API, nosql
+    ref over System, DB_API
         Saves step to db
     end ref
 end
 else if error
     System --> External_API : Send error
-    ref over System, Transfer_API, nosql
+    ref over System, DB_API
         Saves step to db
     end ref
 end
 Transfer_API --> System : sends xml response
-ref over System, Transfer_API, nosql
+ref over System, DB_API
  Saves step to db
 end ref
 System -> System : convert xml to json
-ref over System, Transfer_API, nosql
+ref over System, DB_API
  Saves step to db
 end ref
 alt if no exceptions
     System --> External_API : sends json response
-    ref over System, Transfer_API, nosql
+    ref over System, DB_API
         Saves step to db
     end ref
 else exceptions
     System --> External_API : send exception
-    ref over System, Transfer_API, nosql
+    ref over System, DB_API
         Saves step to db
     end ref
 end
 deactivate External_API
 deactivate System
 activate nosql
-System -> nosql : transfer folder contents to db
+System -> DB_API : transfer folder contents to db api
+DB_API -> nosql : transfer folder contents to db
 alt if successful
-    nosql --> System : return successful response
+    nosql --> DB_API : return successful response
 else errors
-    nosql --> System : send errors encountered
+    nosql --> DB_API : send errors encountered
 end
 deactivate nosql
+DB_API --> System : returns response
 @enduml
