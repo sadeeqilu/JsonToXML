@@ -2,12 +2,11 @@
 !startsub DB
 participant System
 participant DB_API
-database nosql
 participant folder
 System -> DB_API : save step
-DB_API -> nosql : save data
+DB_API -> DB_API : save data
 alt if successful
-    nosql --> DB_API : return successful response
+    DB_API --> DB_API : return successful response
 else failed to save
     DB_API -> folder : save step
 end
