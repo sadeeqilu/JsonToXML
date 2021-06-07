@@ -43,6 +43,7 @@ else if error
     end ref
 end
 Transfer_API --> System : sends xml response
+deactivate Transfer_API
 ref over System
  Saves step to db
 end ref
@@ -59,5 +60,4 @@ else exceptions
 end
 deactivate External_API
 deactivate System
-deactivate 
 @enduml

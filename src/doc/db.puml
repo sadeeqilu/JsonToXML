@@ -3,12 +3,11 @@
 participant System
 participant DB_API
 System -> DB_API : save step
-DB_API -> DB_API : save data
 alt if successful
-    DB_API --> System : return successful response
+    DB_API --> System : return successful html codes\n with body in json document response
 else failed to save
-    DB_API -> DB_API : save step to folder
-    DB_API --> System : return successful response
+    DB_API --> System : return error response
+    System -> System : save step to folder
 end
 !endsub
 @enduml
