@@ -1,11 +1,3 @@
-
-<!-- 
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"); -->
-
 <?php
 
 require_once("./src/validate.php");
@@ -15,24 +7,19 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Max-Age: 1000');
 header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, Authorization');
 
-function convertToXML()
+function convertToXML($data)
 {
 	//implement the convertion from json to xml
 
 	try{
-		// validate required fields
-		$newArray['from_msisdn'] = $_POST['from_msisdn'];
-		$newArray['message'] = $_POST['message'];
-		$newArray['to_msisdn'] = $_POST['to_msisdn'];
 
 		//validator for field_map 
-		// get clarity on this.
 		$xml = new SimpleXMLElement('<request/>');
 		array_walk_recursive($newArray, array($xml,'addChild'));
 		print $xml->asXML();
 		echo "xml = ".$xml;
 	}catch(\Exception $e){
-			echo $e->getMessage();
+		echo $e->getMessage();
 	}
 }
 
@@ -54,14 +41,19 @@ function convertToJson()
 // }
 
 if(isset($_POST['from_msisdn']) && isset($_POST['to_msisdn']) && isset($_POST['message'])){
-	$data['from_msisdn'] = Validator::int($_POST['from_msisdn']);
+	try{
+		$data['from_msisdn'] = Validator::int($_POST['from_msisdn']);
+		$data['message'] = Validator::str($_POST['message']);
+		$data['to_msisdn'] = Validator::int($_POST['to_msisdn']);
 
-	$this->convertToXML();
+		convertToXML($data);
+	}catch(\Exception $e){
+			echo $e->getMessage();
+	}
 }else{
-	$error_message = '';
-	response("required fields missing", 200, null);
+    $error_message = '';
+	echo "errors";
 }
-echo "hello there";
 
 // flow diagram
 // component in sequence diagram
@@ -71,4 +63,6 @@ echo "hello there";
 // helps auditors to trace trnxs
 // monitors org finances
 // starts from invoice receipt
-// 
+// For api to work, put src code in /var/www/ and create an index.php file
+// add headers
+// start invoking functions
