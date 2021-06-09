@@ -17,7 +17,7 @@ header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, Author
 if (!defined('CONST_INCLUDE_KEY')) {define('CONST_INCLUDE_KEY', 'd4e2ad09-b1c3-4d70-9a9a-0e6149302486');}
 
 // run the class autoloader
-require_once ('./src/app_autoloader.php');
+require_once ('./autoloader.php');
 
 //--------------------------------------------------------------------------------------------------------------------
 // if this API must be used with a GET, POST, PUT, DELETE or OPTIONS request

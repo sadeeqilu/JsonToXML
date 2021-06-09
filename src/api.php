@@ -1,6 +1,8 @@
 <?php
 
 require("validate.php");
+include_once("app_response.php");
+include_once("autoloader.php");
 
 interface Converter
 {
