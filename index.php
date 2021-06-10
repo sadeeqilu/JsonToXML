@@ -2,6 +2,7 @@
 
 require_once("./src/validate.php");
 
+header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *'); 
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Max-Age: 1000');
@@ -66,11 +67,20 @@ if(isset($_POST['from_msisdn']) && isset($_POST['to_msisdn']) && isset($_POST['m
 
 		convertToXML($data);
 	}catch(\Exception $e){
-			echo $e->getMessage();
+		header('Content-Type: application/json');
+		echo json_encode($e->getMessage());
 	}
 }else{
-    $error_message = '';
-	echo "errors";
+	header('Content-Type: application/json');
+	$error_messages = [];
+	if(!isset($_POST['from_msisdn']))
+		array_push($error_messages,'from_msisdn field is required');
+	if(!isset($_POST['to_msisdn']))
+		array_push($error_messages,'to_msisdn field is required');
+	if(!isset($_POST['message']))
+		array_push($error_messages,'message field is required');
+    echo json_encode($error_messages);
+
 }
 
 // flow diagram
