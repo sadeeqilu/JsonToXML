@@ -14,9 +14,10 @@ function convertToXML($data)
 	try{
 
 		//validator for field_map 
-		$xml = new SimpleXMLElement('<request/>');
-		array_walk_recursive($newArray, array($xml,'addChild'));
-		print $xml->asXML();
+		// $xml = new SimpleXMLElement('<request/>');
+		// array_walk_recursive($newArray, array($xml,'addChild'));
+		// print $xml->asXML();
+		$xml = arrayToXml($data,"",false);
 		echo "xml = ".$xml;
 	}catch(\Exception $e){
 		echo $e->getMessage();
@@ -34,6 +35,23 @@ function convertToJson()
 		echo $e->getMessage();
 	}
 }
+
+function arrayToXml($array, $parentkey="", $xml = false){
+
+	if($xml === false){
+		$xml = new SimpleXMLElement('<request/>');
+	}
+ 
+	foreach($array as $key => $value){
+		if(is_array($value)){
+			array2xml($value, is_numeric((string) $key)?("n".$key):$key, $xml->addChild(is_numeric((string) $key)?$parentkey:$key));
+		} else {
+			$xml->addAttribute(is_numeric((string) $key)?("n".$key):$key, $value);
+		}
+	}
+ 
+	return $xml->asXML();
+ }
 
 // function convertData(Converter $converter)
 // {
