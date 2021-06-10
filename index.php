@@ -67,11 +67,9 @@ if(isset($_POST['from_msisdn']) && isset($_POST['to_msisdn']) && isset($_POST['m
 
 		convertToXML($data);
 	}catch(\Exception $e){
-		header('Content-Type: application/json');
 		echo json_encode($e->getMessage());
 	}
 }else{
-	header('Content-Type: application/json');
 	$error_messages = [];
 	if(!isset($_POST['from_msisdn']))
 		array_push($error_messages,'from_msisdn field is required');
