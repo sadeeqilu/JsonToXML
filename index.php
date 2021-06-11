@@ -71,13 +71,18 @@ if(isset($_POST['from_msisdn']) && isset($_POST['to_msisdn']) && isset($_POST['m
 	}
 }else{
 	$error_messages = [];
-	if(!isset($_POST['from_msisdn']))
-		array_push($error_messages,'from_msisdn field is required');
-	if(!isset($_POST['to_msisdn']))
+	if(!isset($_POST['from_msisdn'])){
+	 	array_push($error_messages,'from_msisdn field is required');
+		echo json_encode($error_messages);
+	}
+	else if(!isset($_POST['to_msisdn'])){
 		array_push($error_messages,'to_msisdn field is required');
-	if(!isset($_POST['message']))
+		echo json_encode($error_messages);
+	}
+	else if(!isset($_POST['message'])){
 		array_push($error_messages,'message field is required');
-    echo json_encode($error_messages);
+		echo json_encode($error_messages);
+	}
 
 }
 
