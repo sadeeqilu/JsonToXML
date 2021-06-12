@@ -65,6 +65,10 @@ if(isset($_POST['from_msisdn']) && isset($_POST['to_msisdn']) && isset($_POST['m
 		$data['message'] = Validator::str($_POST['message']);
 		$data['to_msisdn'] = Validator::int($_POST['to_msisdn']);
 
+		if(count($_POST) > 3){
+			// extra fields
+		}
+
 		convertToXML($data);
 	}catch(\Exception $e){
 		echo json_encode($e->getMessage());
