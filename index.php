@@ -1,6 +1,6 @@
 <?php
 
-require_once("./src/validate.php");
+// require_once("./src/validate.php");
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *'); 
@@ -54,19 +54,47 @@ function arrayToXml($array, $parentkey="", $xml = false){
 	return $xml->asXML();
  }
 
+ function validateInt($val) {
+	$val = filter_var($val, FILTER_VALIDATE_INT);
+	if ($val === false) {
+		throwError('Invalid Integer', 901);
+	}
+	return $val;
+}
+
+function validateString($val) {
+	if (!is_string($val)) {
+		throwError('Invalid String', 902);
+	}
+	$val = trim(htmlspecialchars($val));
+	return $val;
+}
 // function convertData(Converter $converter)
 // {
 // 	return $converter->convert([]);
 // }
 
-if(isset($_POST['from_msisdn']) && isset($_POST['to_msisdn']) && isset($_POST['message'])){
-	try{
-		$data['from_msisdn'] = Validator::int($_POST['from_msisdn']);
-		$data['message'] = Validator::str($_POST['message']);
-		$data['to_msisdn'] = Validator::int($_POST['to_msisdn']);
+$data = json_decode(file_get_contents("php://input"));
 
-		if(count($_POST) > 3){
+if(isset($data['from_msisdn']) && isset($data['to_msisdn']) && isset($data['message'])){
+	try{
+		$data['from_msisdn'] = validateInt($data['from_msisdn']);
+		$data['message'] = validateString($data['message']);
+		$data['to_msisdn'] = validateInt($data['to_msisdn']);
+
+		if(count($data) > 4){
+			if(isset($data['field_map']))
+				echo "field_map does not exist";
+
 			// extra fields
+			foreach($data as $key){
+				if($key == "from_msisdn" || $key == "to_msisdn" || $key == "message")
+					continue;
+				else {
+					
+				}
+				
+			}
 		}
 
 		convertToXML($data);
