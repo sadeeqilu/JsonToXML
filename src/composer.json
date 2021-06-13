@@ -1,7 +1,8 @@
 {
     "require": {
         "vlucas/phpdotenv": "^2.4",
-        "ostico/phporient": "^1.3"
+        "ostico/phporient": "^1.3",
+        "guzzlehttp/guzzle": "^7.0"
     },
     "autoload": {
         "psr-4": {
