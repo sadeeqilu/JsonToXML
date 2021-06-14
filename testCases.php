@@ -39,18 +39,30 @@ $passed = 0;
 $data1 = [];
 $data2 = ["from_msisdn"=>123];
 $data3 = ["from_msisdn" => 123,"to_msisdn" => 456];
-$data4 = ["from_msisdn" => 123,"to_msisdn" => 456];
+$data4 = ["from_msisdn" => 123,"message" => "test"];
+$data5 = ["from_msisdn" => "test string", "to_msisdn" => 456, "message" => "test"];
+$data6 = ["from_msisdn" => 123, "to_msisdn" => 456, "message" => 789];
 
 try{
     $test1 = test($data1);
     $test2 = test($data2);
     $test3 = test($data3);
-    if($test1 == ['from_msisdn field is required'])
+    $test4 = test($data4);
+    $test5 = test($data5);
+    $test6 = test($data6);
+    if($test1 == ["success"=>false,"error message"=>"from_msisdn field is missing."])
         $passed++;
-    if($test2 == ["to_msisdn field is required"])
+    if($test2 == ["success"=>false,"error message"=>"to_msisdn field is missing."])
         $passed++;
-    if($test3 == ["message field is required"])
+    if($test3 == ["success"=>false,"error message"=>"message field is missing."])
         $passed++;
+    if($test4 == ["success"=>false,"error message"=>"to_msisdn field is missing."])
+        $passed++;
+    if($test5 == ["success"=>false,"error message"=>"Invalid integer input for from_msisdn field."])
+        $passed++;
+    if($test6 == ["success"=>false,"error message"=>"Invalid string input for message field."])
+        $passed++;
+        
 
     echo "Passed test cases = ".$passed;
 }catch(\Exception $exception){
