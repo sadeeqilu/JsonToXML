@@ -1,37 +1,46 @@
 <?php
 
+use GuzzleHttp\Client;
 
 function test($data)
 {
-    // $defaults = array(
-    //     CURLOPT_URL => 'http://localhost/JsonToXML/index.php',
-    //     CURLOPT_POST => true,
-    //     CURLOPT_POSTFIELDS => http_build_query($data),
-    // );
+    $client = new Client([
+        // Base URI is used with relative requests
+        'base_uri' => 'http://localhost/JsonToXML/index.php',
+        // You can set any number of default request options.
+        'timeout'  => 2.0,
+    ]);
 
-        $ch = curl_init();
-        $url = 'http://localhost/JsonToXML/index.php';
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        $result = curl_exec($ch);
-        if($e = curl_error($ch)){
-            echo $e;
-        }else{
-            $decode_result = json_decode($result,true);
-        }
-        curl_close($ch);
-        return $decode_result;
+        // $ch = curl_init();
+        // $url = 'http://localhost/JsonToXML/index.php';
+        // curl_setopt($ch, CURLOPT_URL, $url);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($ch, CURLOPT_POST, true);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        // $result = curl_exec($ch);
+        // if($e = curl_error($ch)){
+        //     echo $e;
+        // }else{
+        //     $decode_result = json_decode($result,true);
+        // }
+        // curl_close($ch);
+        $request = $client->post('', [
+            'body' => json_encode($data)
+        ]);
+        $response = $request->getBody();
+        return $json_decode($response,true);
 }
 
 echo "Tests on JsonToXML API.";
 
 $passed = 0;
 
+//error path
 $data1 = [];
 $data2 = ["from_msisdn"=>123];
 $data3 = ["from_msisdn" => 123,"to_msisdn" => 456];
+$data4 = ["from_msisdn" => 123,"to_msisdn" => 456];
+
 try{
     $test1 = test($data1);
     $test2 = test($data2);

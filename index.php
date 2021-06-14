@@ -1,29 +1,10 @@
 <?php
 
-// require_once("./src/validate.php");
-
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *'); 
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Max-Age: 1000');
 header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, Authorization');
-
-function convertToXML($data)
-{
-	//implement the convertion from json to xml
-
-	try{
-
-		//validator for field_map 
-		// $xml = new SimpleXMLElement('<request/>');
-		// array_walk_recursive($newArray, array($xml,'addChild'));
-		// print $xml->asXML();
-		$xml = arrayToXml($data,"",false);
-		echo "xml = ".$xml;
-	}catch(\Exception $e){
-		echo $e->getMessage();
-	}
-}
 
 function convertToJson()
 {
@@ -37,6 +18,7 @@ function convertToJson()
 	}
 }
 
+//recursive function for changing json data to xml
 function arrayToXml($array, $parentkey="", $xml = false){
 
 	if($xml === false){
@@ -45,7 +27,7 @@ function arrayToXml($array, $parentkey="", $xml = false){
  
 	foreach($array as $key => $value){
 		if(is_array($value)){
-			array2xml($value, is_numeric((string) $key)?("n".$key):$key, $xml->addChild(is_numeric((string) $key)?$parentkey:$key));
+			arrayToXml($value, is_numeric((string) $key)?("n".$key):$key, $xml->addChild(is_numeric((string) $key)?$parentkey:$key));
 		} else {
 			$xml->addAttribute(is_numeric((string) $key)?("n".$key):$key, $value);
 		}
@@ -54,33 +36,13 @@ function arrayToXml($array, $parentkey="", $xml = false){
 	return $xml->asXML();
  }
 
- function validateInt($val) {
-	$val = filter_var($val, FILTER_VALIDATE_INT);
-	if ($val === false) {
-		throwError('Invalid Integer', 901);
-	}
-	return $val;
-}
-
-function validateString($val) {
-	if (!is_string($val)) {
-		throwError('Invalid String', 902);
-	}
-	$val = trim(htmlspecialchars($val));
-	return $val;
-}
-// function convertData(Converter $converter)
-// {
-// 	return $converter->convert([]);
-// }
-
 $data = json_decode(file_get_contents("php://input"));
 
 if(isset($data['from_msisdn']) && isset($data['to_msisdn']) && isset($data['message'])){
 	try{
-		$data['from_msisdn'] = validateInt($data['from_msisdn']);
-		$data['message'] = validateString($data['message']);
-		$data['to_msisdn'] = validateInt($data['to_msisdn']);
+		$data['from_msisdn'] = is_int($data['from_msisdn']) ? $data['from_msisdn'] : throwError("Invalid integer input");
+		$data['message'] = is_string($data['message']) ? $data['message'] : throwError("Invalid string input");
+		$data['to_msisdn'] = is_int($data['to_msisdn']) ? $data['to_msisdn'] : throwError("Invalid integer input");
 
 		if(count($data) > 4){
 			if(isset($data['field_map']))
@@ -88,30 +50,50 @@ if(isset($data['from_msisdn']) && isset($data['to_msisdn']) && isset($data['mess
 
 			// extra fields
 			foreach($data as $key){
-				if($key == "from_msisdn" || $key == "to_msisdn" || $key == "message")
+				if($key == "from_msisdn" || $key == "to_msisdn" || $key == "message" || $key == "field_map")
 					continue;
 				else {
-					
+					if(array_key_exists($key,$data['field_map'])){
+						$type = $data['field_map'][$key];
+						switch($type){
+							case 'boolean':
+								$check = is_bool($data[$key]) ? true : throwError("Invalid boolean input.");
+							break;
+							case 'integer':
+								$check = is_int($data[$key]) ? true : throwError("Invalid integer input");
+							break;
+							case 'string':
+								$check = is_string($data[$key]) ? true : throwError("Invalid string input");
+							break;
+							case 'float':
+								$check = is_float($data[$key]) ? true : throwError("Invalid float input.");
+							break;
+							default:
+							throwError($type . " is not a valid type.");
+						}
+					}
 				}
 				
 			}
 		}
 
-		convertToXML($data);
+		//implement the conversion from json to xml
+		$xml = arrayToXml($data,"",false);
+		echo "xml = ".$xml;
 	}catch(\Exception $e){
 		echo json_encode($e->getMessage());
 	}
 }else{
 	$error_messages = [];
-	if(!isset($_POST['from_msisdn'])){
+	if(!isset($data['from_msisdn'])){
 	 	array_push($error_messages,'from_msisdn field is required');
 		echo json_encode($error_messages);
 	}
-	else if(!isset($_POST['to_msisdn'])){
+	else if(!isset($data['to_msisdn'])){
 		array_push($error_messages,'to_msisdn field is required');
 		echo json_encode($error_messages);
 	}
-	else if(!isset($_POST['message'])){
+	else if(!isset($data['message'])){
 		array_push($error_messages,'message field is required');
 		echo json_encode($error_messages);
 	}
