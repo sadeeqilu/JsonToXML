@@ -46,6 +46,11 @@ $data7 = ["from_msisdn" => 123, "to_msisdn" => 456, "message" => "test", "field_
 $data8 = ["from_msisdn" => 123, "to_msisdn" => 456, "message" => "test", "field_1" => 20, "field_map" => ["field_1" => "int"]];
 $data9 = ["from_msisdn" => 123, "to_msisdn" => 456, "message" => "test", "field_1" => 20, "field_map" => ["field_2" => "integer"]];
 
+//happy path
+$data10 = ["from_msisdn" => 123,"to_msisdn" => 456, "message" => "Test"];
+$data11 = ["from_msisdn" => 123, "to_msisdn" => 456, "message" => "test", "field_1" => "testing", "field_map" => ["field_1" => "string"]];
+
+
 
 try{
     $test1 = test($data1);
@@ -57,7 +62,8 @@ try{
     $test7 = test($data7);
     $test8 = test($data8);
     $test9 = test($data9);
-    
+    $test10 = test($data10);
+    $test11 = test($data11);
 
     if($test1 == ["success"=>false,"error message"=>"from_msisdn field is missing."])
         $passed++;
@@ -77,7 +83,10 @@ try{
         $passed++;
     if($test9 == ["success"=>false,"error message"=>"key field_1 does not exist in field_map."])
         $passed++;
-        
+    if($test10 == ["success"=> true,"message"=>"Successfully completed process"])
+        $passed++;
+    if($test11 == ["success"=> true,"message"=>"Successfully completed process"])
+        $passed++;
 
     echo "Passed test cases = ".$passed;
 }catch(\Exception $exception){
