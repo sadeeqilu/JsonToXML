@@ -7,18 +7,6 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Max-Age: 1000');
 header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, Authorization');
 
-function convertToJson()
-{
-	try{
-		//implement conversion from xml to json
-		$xml = simplexml_load_string($data);
-		$json = json_encode($xml);
-		print $json;
-	}catch(\Exception $e){
-		echo $e->getMessage();
-	}
-}
-
 //recursive function for changing json data to xml
 function arrayToXml($array, $parentkey="", $xml = false){
 
@@ -37,25 +25,35 @@ function arrayToXml($array, $parentkey="", $xml = false){
 	return $xml->asXML();
  }
 
+ // get post data
 $data = json_decode(file_get_contents("php://input"));
 
+// check if all required fields are available
 if(isset($data['from_msisdn']) && isset($data['to_msisdn']) && isset($data['message'])){
 	try{
+
+		// validate input data types
 		$data['from_msisdn'] = is_int($data['from_msisdn']) ? $data['from_msisdn'] : throwError("Invalid integer input");
 		$data['message'] = is_string($data['message']) ? $data['message'] : throwError("Invalid string input");
 		$data['to_msisdn'] = is_int($data['to_msisdn']) ? $data['to_msisdn'] : throwError("Invalid integer input");
 
+		// if data has more than 4 inputs, that means extra fields are in the request as well
 		if(count($data) > 4){
+			// check if field_map variable is available
 			if(isset($data['field_map']))
-				echo "field_map does not exist";
+				throwError("field_map does not exist");
 
-			// extra fields
+			// loop through all data to get extra fields
 			foreach($data as $key){
+				// if key is one the required fields or the field_map object, move to the next key
 				if($key == "from_msisdn" || $key == "to_msisdn" || $key == "message" || $key == "field_map")
 					continue;
 				else {
+					// check if key is in field_map object
 					if(array_key_exists($key,$data['field_map'])){
+						// get the type of the field
 						$type = $data['field_map'][$key];
+						// validate the key type
 						switch($type){
 							case 'boolean':
 								$check = is_bool($data[$key]) ? true : throwError("Invalid boolean input.");
@@ -70,7 +68,7 @@ if(isset($data['from_msisdn']) && isset($data['to_msisdn']) && isset($data['mess
 								$check = is_float($data[$key]) ? true : throwError("Invalid float input.");
 							break;
 							default:
-							throwError($type . " is not a valid type.");
+							throwError($type . " is not a valid type."); // type not found
 						}
 					}
 				}
@@ -82,9 +80,11 @@ if(isset($data['from_msisdn']) && isset($data['to_msisdn']) && isset($data['mess
 		$xml = arrayToXml($data,"",false);
 		echo "xml = ".$xml;
 	}catch(\Exception $e){
+		// display exception/error message
 		echo json_encode($e->getMessage());
 	}
 }else{
+	// display error message for any first missing required field
 	$error_messages = [];
 	if(!isset($data['from_msisdn'])){
 	 	array_push($error_messages,'from_msisdn field is required');
@@ -100,15 +100,3 @@ if(isset($data['from_msisdn']) && isset($data['to_msisdn']) && isset($data['mess
 	}
 
 }
-
-// flow diagram
-// component in sequence diagram
-// Trail audits : for accounting and audit purposes
-// step by step sequential record that provides  evidence of
-// the doctd history of financial trans to its src
-// helps auditors to trace trnxs
-// monitors org finances
-// starts from invoice receipt
-// For api to work, put src code in /var/www/ and create an index.php file
-// add headers
-// start invoking functions
