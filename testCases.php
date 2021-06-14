@@ -42,6 +42,10 @@ $data3 = ["from_msisdn" => 123,"to_msisdn" => 456];
 $data4 = ["from_msisdn" => 123,"message" => "test"];
 $data5 = ["from_msisdn" => "test string", "to_msisdn" => 456, "message" => "test"];
 $data6 = ["from_msisdn" => 123, "to_msisdn" => 456, "message" => 789];
+$data7 = ["from_msisdn" => 123, "to_msisdn" => 456, "message" => "test", "field_1" => "test", "field_map" => ["field_1" => "integer"]];
+$data8 = ["from_msisdn" => 123, "to_msisdn" => 456, "message" => "test", "field_1" => 20, "field_map" => ["field_1" => "int"]];
+$data9 = ["from_msisdn" => 123, "to_msisdn" => 456, "message" => "test", "field_1" => 20, "field_map" => ["field_2" => "integer"]];
+
 
 try{
     $test1 = test($data1);
@@ -50,6 +54,11 @@ try{
     $test4 = test($data4);
     $test5 = test($data5);
     $test6 = test($data6);
+    $test7 = test($data7);
+    $test8 = test($data8);
+    $test9 = test($data9);
+    
+
     if($test1 == ["success"=>false,"error message"=>"from_msisdn field is missing."])
         $passed++;
     if($test2 == ["success"=>false,"error message"=>"to_msisdn field is missing."])
@@ -61,6 +70,12 @@ try{
     if($test5 == ["success"=>false,"error message"=>"Invalid integer input for from_msisdn field."])
         $passed++;
     if($test6 == ["success"=>false,"error message"=>"Invalid string input for message field."])
+        $passed++;
+    if($test7 == ["success"=>false,"error message"=>"field_1 value is an invalid input."])
+        $passed++;
+    if($test8 == ["success"=>false,"error message"=>"int is not an accepted type for extra_fields."])
+        $passed++;
+    if($test9 == ["success"=>false,"error message"=>"key field_1 does not exist in field_map."])
         $passed++;
         
 
