@@ -10,6 +10,7 @@ header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, Author
 //recursive function for changing json data to xml
 function arrayToXml($array, $parentkey="", $xml = false){
 
+	// recursive function terminator
 	if($xml === false){
 		$xml = new SimpleXMLElement('<request/>');
 	}
