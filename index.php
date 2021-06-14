@@ -16,10 +16,11 @@ function arrayToXml($array, $parentkey="", $xml = false){
 	}
  
 	foreach($array as $key => $value){
+		// if value is an array, call the arrayToXml function again.
 		if(is_array($value)){
-			arrayToXml($value, is_numeric((string) $key)?("n".$key):$key, $xml->addChild(is_numeric((string) $key)?$parentkey:$key));
+			arrayToXml($value, is_numeric((string) $key) ? ("n".$key) : $key, $xml->addChild(is_numeric((string) $key) ? $parentkey : $key));
 		} else {
-			$xml->addAttribute(is_numeric((string) $key)?("n".$key):$key, $value);
+			$xml->addAttribute(is_numeric((string) $key) ? ("n".$key) : $key, $value);
 		}
 	}
  
