@@ -32,25 +32,25 @@ function arrayToXml($array, $parentkey="", $xml = false){
  }
 
  // get post data
-$data = json_decode(file_get_contents("php://input"));
+$data = json_decode(file_get_contents('php://input'));
 
 // check if all required fields are available
 // if(isset($data['from_msisdn']) && isset($data['to_msisdn']) && isset($data['message'])){
 	// display error message for any first missing required field
-	assert('!isset($data->from_msisdn','from_msisdn field is required');
-	assert('!isset($data->to_msisdn','to_msisdn field is required');
-	assert('!isset($data->message','message field is required');
+	assert('!isset($data->from_msisdn);','from_msisdn field is required');
+	assert('!isset($data->to_msisdn);','to_msisdn field is required');
+	assert('!isset($data->message);','message field is required');
 	try{
 
 		// validate input data types
-		assert('is_int($data->from_msisdn', 'Invalid integer input');
-		assert('is_string($data->message','Invalid string input');
-		assert('is_int($data->to_msisdn','Invalid integer input');
+		assert('is_int($data->from_msisdn);', 'Invalid integer input');
+		assert('is_string($data->message);','Invalid string input');
+		assert('is_int($data->to_msisdn);','Invalid integer input');
 
 		// if data has more than 4 inputs, that means extra fields are in the request as well
 		if(count($data) > 4){
 			// check if field_map variable is available
-			assert('isset($data->field_map)',"field_map does not exist");
+			assert('isset($data->field_map);',"field_map does not exist");
 
 			// loop through all data to get extra fields
 			foreach($data as $key){
@@ -65,16 +65,16 @@ $data = json_decode(file_get_contents("php://input"));
 						// validate the key type
 						switch($type){
 							case 'boolean':
-								$check = assert('is_bool($data[$key])','Invalid boolean input.');
+								$check = assert('is_bool($data[$key]);','Invalid boolean input.');
 							break;
 							case 'integer':
-								$check = assert('is_int($data[$key])','Invalid integer input');
+								$check = assert('is_int($data[$key]);','Invalid integer input');
 							break;
 							case 'string':
-								$check = assert('is_string($data[$key])','Invalid string input');
+								$check = assert('is_string($data[$key]);','Invalid string input');
 							break;
 							case 'float':
-								$check = assert('is_float($data[$key])','Invalid float input.');
+								$check = assert('is_float($data[$key]);','Invalid float input.');
 							break;
 							default:
 							throwError($type . " is not a valid type."); // type not found
