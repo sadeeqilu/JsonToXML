@@ -7,6 +7,10 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Max-Age: 1000');
 header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, Authorization');
 
+assert_options(ASSERT_ACTIVE, 1);
+assert_options(ASSERT_WARNING, 0);
+assert_options(ASSERT_QUIET_EVAL, 1);
+
 //recursive function for changing json data to xml
 function arrayToXml($array, $parentkey="", $xml = false){
 
@@ -31,19 +35,22 @@ function arrayToXml($array, $parentkey="", $xml = false){
 $data = json_decode(file_get_contents("php://input"));
 
 // check if all required fields are available
-if(isset($data['from_msisdn']) && isset($data['to_msisdn']) && isset($data['message'])){
+// if(isset($data['from_msisdn']) && isset($data['to_msisdn']) && isset($data['message'])){
+	// display error message for any first missing required field
+	assert('!isset($data->from_msisdn','from_msisdn field is required');
+	assert('!isset($data->to_msisdn','to_msisdn field is required');
+	assert('!isset($data->message','message field is required');
 	try{
 
 		// validate input data types
-		$data['from_msisdn'] = is_int($data['from_msisdn']) ? $data['from_msisdn'] : throwError("Invalid integer input");
-		$data['message'] = is_string($data['message']) ? $data['message'] : throwError("Invalid string input");
-		$data['to_msisdn'] = is_int($data['to_msisdn']) ? $data['to_msisdn'] : throwError("Invalid integer input");
+		assert('is_int($data->from_msisdn', 'Invalid integer input');
+		assert('is_string($data->message','Invalid string input');
+		assert('is_int($data->to_msisdn','Invalid integer input');
 
 		// if data has more than 4 inputs, that means extra fields are in the request as well
 		if(count($data) > 4){
 			// check if field_map variable is available
-			if(isset($data['field_map']))
-				throwError("field_map does not exist");
+			assert('isset($data->field_map)',"field_map does not exist");
 
 			// loop through all data to get extra fields
 			foreach($data as $key){
@@ -58,16 +65,16 @@ if(isset($data['from_msisdn']) && isset($data['to_msisdn']) && isset($data['mess
 						// validate the key type
 						switch($type){
 							case 'boolean':
-								$check = is_bool($data[$key]) ? true : throwError("Invalid boolean input.");
+								$check = assert('is_bool($data[$key])','Invalid boolean input.');
 							break;
 							case 'integer':
-								$check = is_int($data[$key]) ? true : throwError("Invalid integer input");
+								$check = assert('is_int($data[$key])','Invalid integer input');
 							break;
 							case 'string':
-								$check = is_string($data[$key]) ? true : throwError("Invalid string input");
+								$check = assert('is_string($data[$key])','Invalid string input');
 							break;
 							case 'float':
-								$check = is_float($data[$key]) ? true : throwError("Invalid float input.");
+								$check = assert('is_float($data[$key])','Invalid float input.');
 							break;
 							default:
 							throwError($type . " is not a valid type."); // type not found
@@ -85,20 +92,3 @@ if(isset($data['from_msisdn']) && isset($data['to_msisdn']) && isset($data['mess
 		// display exception/error message
 		echo json_encode($e->getMessage());
 	}
-}else{
-	// display error message for any first missing required field
-	$error_messages = [];
-	if(!isset($data['from_msisdn'])){
-	 	array_push($error_messages,'from_msisdn field is required');
-		echo json_encode($error_messages);
-	}
-	else if(!isset($data['to_msisdn'])){
-		array_push($error_messages,'to_msisdn field is required');
-		echo json_encode($error_messages);
-	}
-	else if(!isset($data['message'])){
-		array_push($error_messages,'message field is required');
-		echo json_encode($error_messages);
-	}
-
-}
