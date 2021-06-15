@@ -16,7 +16,7 @@ function arrayToXml($array, $parentkey="", $xml = false){
 	}
  
 	foreach($array as $key => $value){
-		// if value is an array, call the arrayToXml function again.
+		// if value is an array, call the arrayToXml function again else append it as a child.
 		if(is_array($value)){
 			arrayToXml($value, is_numeric((string) $key) ? ("n".$key) : $key, $xml->addChild(is_numeric((string) $key) ? $parentkey : $key));
 		} else {
