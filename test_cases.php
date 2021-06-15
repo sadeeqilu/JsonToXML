@@ -1,10 +1,9 @@
 <?php
 
-use GuzzleHttp\Client;
 
 function test($data)
 {
-    $client = new Client([
+    $client = new \GuzzleHttp\Client([
         // Base URI is used with relative requests
         'base_uri' => 'http://localhost/JsonToXML/index.php',
         // You can set any number of default request options.
@@ -77,5 +76,6 @@ try{
 
     echo "Passed test cases = ".$passed;
 }catch(\Exception $exception){
+    // show exception
     echo $exception->getMessage();
 }
