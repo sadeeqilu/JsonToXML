@@ -81,19 +81,19 @@ try{
     var_dump("after 6",$test6);
 
     $test7 = test($data7);
-    var_dump("after 7");
+    var_dump("after 7",$test7);
 
     $test8 = test($data8);
-    var_dump("after 8");
+    var_dump("after 8",$test8);
 
     $test9 = test($data9);
-    var_dump("after 9");
+    var_dump("after 9",$test9);
 
     $test10 = test($data10);
-    var_dump("after 10");
+    var_dump("after 10",$test10);
 
     $test11 = test($data11);
-    var_dump("after 11");
+    var_dump("after 11",$test11);
 
 
     assert($test1['status_message'] == "from_msisdn field is required");
