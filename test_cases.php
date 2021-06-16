@@ -25,14 +25,21 @@ function test($data)
         'body' => json_encode($data)
     ]);
     $response = $request->getBody();
-    $response_data = json_decode($response,true);
+    // $response_data = 
     // echo json_decode($response,true);
-    var_dump("data = ",$response_data);
+    // var_dump("data = ",$response_data);
+    return json_decode($response,true);
 }
 
 echo "Tests on JsonToXML API.";
 ignore_user_abort(true);
-
+$failed = 0;
+function my_assert_handler($file, $line, $code, $desc = null)
+{
+    $failed++;
+}
+// Set up the callback
+assert_options(ASSERT_CALLBACK, 'my_assert_handler');
 $passed = 0;
 
 //error path
@@ -65,30 +72,19 @@ try{
     $test10 = test($data10);
     $test11 = test($data11);
 
-    if($test1["status_message"] == "from_msisdn field is missing.")
-        $passed++;
-    if($test2 == ["success"=>false,"error message"=>"to_msisdn field is missing."])
-        $passed++;
-    if($test3 == ["success"=>false,"error message"=>"message field is missing."])
-        $passed++;
-    if($test4 == ["success"=>false,"error message"=>"to_msisdn field is missing."])
-        $passed++;
-    if($test5 == ["success"=>false,"error message"=>"Invalid integer input for from_msisdn field."])
-        $passed++;
-    if($test6 == ["success"=>false,"error message"=>"Invalid string input for message field."])
-        $passed++;
-    if($test7 == ["success"=>false,"error message"=>"field_1 value is an invalid input."])
-        $passed++;
-    if($test8 == ["success"=>false,"error message"=>"int is not an accepted type for extra_fields."])
-        $passed++;
-    if($test9 == ["success"=>false,"error message"=>"key field_1 does not exist in field_map."])
-        $passed++;
-    if($test10 == ["success"=> true,"message"=>"Successfully completed process"])
-        $passed++;
-    if($test11 == ["success"=> true,"message"=>"Successfully completed process"])
-        $passed++;
+    assert($test1["status_message"] == "from_msisdn field is missing.");
+    assert($test2["status_message"] == "to_msisdn field is missing.");
+    assert($test3["status_message"] == "message field is missing.");
+    assert($test4["status_message"] == "to_msisdn field is missing.");
+    assert($test5["status_message"] == "Invalid integer input for from_msisdn field.");
+    assert($test6["status_message"] == "Invalid string input for message field.");
+    assert($test7["status_message"] == "field_1 value is an invalid input.");
+    assert($test8["status_message"] == "int is not an accepted type for extra_fields.");
+    assert($test9["status_message"] == "key field_1 does not exist in field_map.");
+    assert($test10["status_message"] == "Successfully completed process");
+    assert($test11["status_message"] == "Successfully completed process");
 
-    echo "Passed test cases = ".$passed;
+    echo "Failed test cases = ".$failed;
 }catch(\Exception $exception){
     // show exception
     echo $exception->getMessage();
