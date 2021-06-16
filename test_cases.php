@@ -13,20 +13,24 @@ assert_options(ASSERT_QUIET_EVAL, 1);
 
 function test($data)
 {
-    $client = new \GuzzleHttp\Client([
-        // Base URI is used with relative requests
-        'base_uri' => 'http://localhost:8001',
-        // You can set any number of default request options.
-        'timeout'  => 2.0,
-    ]);
+    try{
+        $client = new \GuzzleHttp\Client([
+            // Base URI is used with relative requests
+            'base_uri' => 'http://localhost:8001',
+            // You can set any number of default request options.
+            'timeout'  => 2.0,
+        ]);
 
-    $request = $client->post('', [
-        'body' => json_encode($data)
-    ]);
-    $response = $request->getBody();
-    // echo json_decode($response,true);
-    // var_dump("data = ",$response_data);
-    echo json_decode($response,true);
+        $request = $client->post('', [
+            'body' => json_encode($data)
+        ]);
+        $response = $request->getBody();
+        // var_dump("Response ",json_decode($response));
+        // var_dump("data = ",json_decode($response,true));
+        return json_decode($response);
+    }catch(\Exception $e){
+        echo $e->getMessage();
+    }
 }
 
 echo "Tests on JsonToXML API.";
@@ -57,7 +61,10 @@ $data11 = ["from_msisdn" => 123, "to_msisdn" => 456, "message" => "test", "field
 
 
 try{
+    var_dump("before first");
     $test1 = test($data1);
+    var_dump("after first");
+
     $test2 = test($data2);
     $test3 = test($data3);
     $test4 = test($data4);
