@@ -25,7 +25,7 @@ function test($data)
             'body' => json_encode($data)
         ]);
         $response = $request->getBody();
-        // var_dump("Response ",json_decode($response));
+        var_dump("Response ",json_decode($response));
         // var_dump("data = ",json_decode($response,true));
         return json_decode($response);
     }catch(\Exception $e){
@@ -63,20 +63,40 @@ $data11 = ["from_msisdn" => 123, "to_msisdn" => 456, "message" => "test", "field
 try{
     var_dump("before first");
     $test1 = test($data1);
-    var_dump("after first");
+    var_dump("after first", $test1);
 
     $test2 = test($data2);
-    $test3 = test($data3);
-    $test4 = test($data4);
-    $test5 = test($data5);
-    $test6 = test($data6);
-    $test7 = test($data7);
-    $test8 = test($data8);
-    $test9 = test($data9);
-    $test10 = test($data10);
-    $test11 = test($data11);
+    var_dump("after 2", $test2);
 
-    assert($test1["status_message"] == "from_msisdn field is missing.");
+    $test3 = test($data3);
+    var_dump("after 3",$test3);
+
+    $test4 = test($data4);
+    var_dump("after 4",$test4);
+
+    $test5 = test($data5);
+    var_dump("after 5",$test5);
+
+    $test6 = test($data6);
+    var_dump("after 6",$test6);
+
+    $test7 = test($data7);
+    var_dump("after 7");
+
+    $test8 = test($data8);
+    var_dump("after 8");
+
+    $test9 = test($data9);
+    var_dump("after 9");
+
+    $test10 = test($data10);
+    var_dump("after 10");
+
+    $test11 = test($data11);
+    var_dump("after 11");
+
+
+    assert($test1['status_message'] == "from_msisdn field is required");
     assert($test2["status_message"] == "to_msisdn field is missing.");
     assert($test3["status_message"] == "message field is missing.");
     assert($test4["status_message"] == "to_msisdn field is missing.");
