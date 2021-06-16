@@ -28,26 +28,26 @@ function arrayToXml($array, $parentkey="", $xml = false){
  }
 
  // get post data
-$data = $json_decode(file_get_contents('php://input'));
+$data = json_decode(file_get_contents('php://input'),true);
 
 // check if all required fields are available
-if($data->from_msisdn && $data->to_msisdn && $data->message){
+if($data['from_msisdn'] && $data['to_msisdn'] && $data['message']){
 	// display error message for any first missing required field
 
 	try{
 
 		// validate input data types
-		if(!is_int($data->from_msisdn))
+		if(!is_int($data['from_msisdn']))
 			throwError('Invalid integer input');
-		if(is_string($data->message))
+		if(is_string($data['message']))
 			throwError('Invalid string input');
-		if(is_int($data->to_msisdn))
+		if(is_int($data['to_msisdn']))
 			throwError('Invalid integer input');
 
 		// if data has more than 4 inputs, that means extra fields are in the request as well
 		if(count($data) > 4){
 			// check if field_map variable is available
-			if(!isset($data->field_map))
+			if(!isset($data['field_map']))
 				throwError("field_map does not exist");
 
 			// loop through all data to get extra fields
