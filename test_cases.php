@@ -2,29 +2,36 @@
 
 require("vendor/autoload.php");
 
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *'); 
+header('Access-Control-Allow-Methods: GET');
+header('Access-Control-Max-Age: 1000');
+
 assert_options(ASSERT_ACTIVE, 1);
 assert_options(ASSERT_WARNING, 0);
 assert_options(ASSERT_QUIET_EVAL, 1);
 
 function test($data)
 {
+    var_dump("to send",$data);
     $client = new \GuzzleHttp\Client([
         // Base URI is used with relative requests
-        'base_uri' => 'http://localhost/JsonToXML/index.php',
+        'base_uri' => 'http://localhost:8001',
         // You can set any number of default request options.
         'timeout'  => 2.0,
     ]);
 
-        $request = $client->post('', [
-            'body' => json_encode($data)
-        ]);
-         $response = $request->getBody();
-         $response_data = json_decode($response,true);
-        // echo json_decode($response,true);
-        var_dump("data = ",$response_data);
+    $request = $client->post('', [
+        'body' => json_encode($data)
+    ]);
+    $response = $request->getBody();
+    $response_data = json_decode($response,true);
+    // echo json_decode($response,true);
+    var_dump("data = ",$response_data);
 }
 
 echo "Tests on JsonToXML API.";
+ignore_user_abort(true);
 
 $passed = 0;
 
@@ -58,7 +65,7 @@ try{
     $test10 = test($data10);
     $test11 = test($data11);
 
-    if($test1 == ["success"=>false,"error message"=>"from_msisdn field is missing."])
+    if($test1["status_message"] == "from_msisdn field is missing.")
         $passed++;
     if($test2 == ["success"=>false,"error message"=>"to_msisdn field is missing."])
         $passed++;

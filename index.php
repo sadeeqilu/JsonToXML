@@ -38,17 +38,17 @@ if($data['from_msisdn'] && $data['to_msisdn'] && $data['message']){
 
 		// validate input data types
 		if(!is_int($data['from_msisdn']))
-			response(405,'Invalid integer input');
+			response(400,'Invalid integer input');
 		if(!is_string($data['message']))
-			response(405,'Invalid string input');
+			response(400,'Invalid string input');
 		if(!is_int($data['to_msisdn']))
-			response(405,'Invalid integer input');
+			response(400,'Invalid integer input');
 
 		// if data has more than 4 inputs, that means extra fields are in the request as well
 		if(count($data) > 4){
 			// check if field_map variable is available
 			if(!isset($data['field_map']))
-				response(405,"field_map does not exist");
+				response(400,"field_map does not exist");
 
 			// loop through all data to get extra fields
 			foreach($data as $key => $value){
@@ -63,22 +63,22 @@ if($data['from_msisdn'] && $data['to_msisdn'] && $data['message']){
 						// validate the key type
 						switch($type){
 							case 'boolean':
-								$check = is_bool($data[$key]) ? true : response(405,"Invalid boolean input.");
+								$check = is_bool($data[$key]) ? true : response(400,"Invalid boolean input.");
 							break;
 							case 'integer':
-								$check = is_int($data[$key]) ? true : response(405,"Invalid integer input");
+								$check = is_int($data[$key]) ? true : response(400,"Invalid integer input");
 							break;
 							case 'string':
-								$check = is_string($data[$key]) ? true : response(405,"Invalid string input");
+								$check = is_string($data[$key]) ? true : response(400,"Invalid string input");
 							break;
 							case 'float':
-								$check = is_float($data[$key]) ? true : response(405,"Invalid float input.");
+								$check = is_float($data[$key]) ? true : response(400,"Invalid float input.");
 							break;
 							default:
-							response(405,$type . " is not a valid type."); // type not found
+							response(400,$type . " is not a valid type."); // type not found
 						}
 					}else {
-						response(405, $key . " does not exist in field_map");
+						response(400, $key . " does not exist in field_map");
 					}
 				}
 					
@@ -94,11 +94,11 @@ if($data['from_msisdn'] && $data['to_msisdn'] && $data['message']){
 	}
 }else{
 	if(!isset($data['from_msisdn']))
-		response(405,'from_msisdn field is required',[]);
-	if(!isset($data['to_msisdn']))
-		response(405,'to_msisdn field is required',[]);
-	if(!isset($data['message']))
-		response(405,'message field is required',[]);
+		response(400,'from_msisdn field is required',[]);
+	elseif(!isset($data['to_msisdn']))
+		response(400,'to_msisdn field is required',[]);
+	elseif(!isset($data['message']))
+		response(400,'message field is required',[]);
 }
 
 // json response
@@ -112,5 +112,5 @@ function response($status,$status_message,$data = [])
 	
 	$json_response = json_encode($response);
 	echo $json_response;
-	exit();
+	// exit();
 }
