@@ -31,7 +31,7 @@ function arrayToXml($array, $parentkey="", $xml = false){
 $data = json_decode(file_get_contents('php://input'),true);
 
 // check if all required fields are available
-if($data['from_msisdn'] && $data['to_msisdn'] && $data['message']){
+if(isset($data['from_msisdn']) && isset($data['to_msisdn']) && isset($data['message'])){
 	// display error message for any first missing required field
 
 	try{
@@ -112,5 +112,5 @@ function response($status,$status_message,$data = [])
 	
 	$json_response = json_encode($response);
 	echo $json_response;
-	// exit();
+	exit();
 }

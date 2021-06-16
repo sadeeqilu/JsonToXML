@@ -13,7 +13,6 @@ assert_options(ASSERT_QUIET_EVAL, 1);
 
 function test($data)
 {
-    var_dump("to send",$data);
     $client = new \GuzzleHttp\Client([
         // Base URI is used with relative requests
         'base_uri' => 'http://localhost:8001',
@@ -25,10 +24,9 @@ function test($data)
         'body' => json_encode($data)
     ]);
     $response = $request->getBody();
-    // $response_data = 
     // echo json_decode($response,true);
     // var_dump("data = ",$response_data);
-    return json_decode($response,true);
+    echo json_decode($response,true);
 }
 
 echo "Tests on JsonToXML API.";
@@ -40,7 +38,6 @@ function my_assert_handler($file, $line, $code, $desc = null)
 }
 // Set up the callback
 assert_options(ASSERT_CALLBACK, 'my_assert_handler');
-$passed = 0;
 
 //error path
 $data1 = [];
