@@ -1,5 +1,6 @@
 <?php
 
+require("vendor/autoload.php");
 
 function test($data)
 {
@@ -13,7 +14,7 @@ function test($data)
         $request = $client->post('', [
             'body' => json_encode($data)
         ]);
-        $response = $request->getBody();
+         $response = $request->getBody();
         return $json_decode($response,true);
 }
 
