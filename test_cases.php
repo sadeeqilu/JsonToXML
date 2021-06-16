@@ -19,7 +19,9 @@ function test($data)
             'body' => json_encode($data)
         ]);
          $response = $request->getBody();
-        return $json_decode($response,true);
+         $response_data = json_decode($response,true);
+        // echo json_decode($response,true);
+        var_dump("data = ",$response_data);
 }
 
 echo "Tests on JsonToXML API.";
