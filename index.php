@@ -38,17 +38,17 @@ if($data['from_msisdn'] && $data['to_msisdn'] && $data['message']){
 
 		// validate input data types
 		if(!is_int($data['from_msisdn']))
-			throwError('Invalid integer input');
+			response(405,'Invalid integer input');
 		if(is_string($data['message']))
-			throwError('Invalid string input');
+			response(405,'Invalid string input');
 		if(is_int($data['to_msisdn']))
-			throwError('Invalid integer input');
+			response(405,'Invalid integer input');
 
 		// if data has more than 4 inputs, that means extra fields are in the request as well
 		if(count($data) > 4){
 			// check if field_map variable is available
 			if(!isset($data['field_map']))
-				throwError("field_map does not exist");
+				response(405,"field_map does not exist");
 
 			// loop through all data to get extra fields
 			foreach($data as $key){
@@ -63,19 +63,19 @@ if($data['from_msisdn'] && $data['to_msisdn'] && $data['message']){
 						// validate the key type
 						switch($type){
 							case 'boolean':
-								$check = is_bool($data[$key]) ? true : throwError("Invalid boolean input.");
+								$check = is_bool($data[$key]) ? true : response(405,"Invalid boolean input.");
 							break;
 							case 'integer':
-								$check = is_int($data[$key]) ? true : throwError("Invalid integer input");
+								$check = is_int($data[$key]) ? true : response(405,"Invalid integer input");
 							break;
 							case 'string':
-								$check = is_string($data[$key]) ? true : throwError("Invalid string input");
+								$check = is_string($data[$key]) ? true : response(405,"Invalid string input");
 							break;
 							case 'float':
-								$check = is_float($data[$key]) ? true : throwError("Invalid float input.");
+								$check = is_float($data[$key]) ? true : response(405,"Invalid float input.");
 							break;
 							default:
-							throwError($type . " is not a valid type."); // type not found
+							response(405,$type . " is not a valid type."); // type not found
 						}
 					}
 				}
@@ -91,16 +91,16 @@ if($data['from_msisdn'] && $data['to_msisdn'] && $data['message']){
 		response(500, $e->getMessage(),[]);
 	}
 }else{
-	if(!isset($data->from_msisdn))
+	if(!isset($data['from_msisdn']))
 		response(405,'from_msisdn field is required',[]);
-	if(!isset($data->to_msisdn))
+	if(!isset($data['to_msisdn']))
 		response(405,'to_msisdn field is required',[]);
-	if(!isset($data->message))
+	if(!isset($data['message']))
 		response(405,'message field is required',[]);
 }
 
 // json response
-function response($status,$status_message,$data)
+function response($status,$status_message,$data = [])
 {
 	header("HTTP/1.1 ".$status);
 	
@@ -110,4 +110,5 @@ function response($status,$status_message,$data)
 	
 	$json_response = json_encode($response);
 	echo $json_response;
+	die();
 }
