@@ -39,9 +39,9 @@ if($data['from_msisdn'] && $data['to_msisdn'] && $data['message']){
 		// validate input data types
 		if(!is_int($data['from_msisdn']))
 			response(405,'Invalid integer input');
-		if(is_string($data['message']))
+		if(!is_string($data['message']))
 			response(405,'Invalid string input');
-		if(is_int($data['to_msisdn']))
+		if(!is_int($data['to_msisdn']))
 			response(405,'Invalid integer input');
 
 		// if data has more than 4 inputs, that means extra fields are in the request as well
