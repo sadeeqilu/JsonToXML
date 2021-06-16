@@ -51,7 +51,7 @@ if($data['from_msisdn'] && $data['to_msisdn'] && $data['message']){
 				response(405,"field_map does not exist");
 
 			// loop through all data to get extra fields
-			foreach($data as $key){
+			foreach($data as $key => $value){
 				// if key is one the required fields or the field_map object, move to the next key
 				if($key == "from_msisdn" || $key == "to_msisdn" || $key == "message" || $key == "field_map")
 					continue;
@@ -77,6 +77,8 @@ if($data['from_msisdn'] && $data['to_msisdn'] && $data['message']){
 							default:
 							response(405,$type . " is not a valid type."); // type not found
 						}
+					}else {
+						response(405, $key . " does not exist in field_map");
 					}
 				}
 					
