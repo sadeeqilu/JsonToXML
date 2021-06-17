@@ -78,32 +78,24 @@ if(count($data) > 4){
                 $type = $data['field_map'][$key];
 
                 // validate the key type (share with users this naming convention)
-                switch($type){
-                    case 'boolean':
-                        if(!is_bool($data[$key])){
-                            response(200,"Invalid boolean input.",[]);
-                            return;
-                        } 
-                    break;
-                    case 'integer':
-                        if(!is_int($data[$key])){
-                            response(200,"Invalid integer input");
-                            return;
-                        }
-                    break;
-                    case 'string':
-                        if(!is_string($data[$key])){
-                            response(200,"Invalid string input");
-                            return;
-                        }
-                    break;
-                    case 'float':
-                        if(!is_float($data[$key])){
-                            response(200,"Invalid float input.");
-                            return;
-                        }
-                    break;
-                    default:
+                if($type == "boolean" && !is_bool($data[$key])){
+                    response(200,"Invalid boolean input.",[]);
+                    return;
+                } 
+                elseif($type == "integer" && !is_int($data[$key])){
+                    response(200,"Invalid integer input");
+                    return;
+                }
+                   
+                elseif($type == 'string' && !is_string($data[$key])){
+                    response(200,"Invalid string input");
+                    return;
+                }
+                elseif($type == "float" && !is_float($data[$key])){
+                    response(200,"Invalid float input.");
+                    return;
+                }
+                else{
                     response(200,$type . " is not a valid type."); // type not found
                     return;
                 }
