@@ -37,18 +37,26 @@ if(isset($data['from_msisdn']) && isset($data['to_msisdn']) && isset($data['mess
 	try{
 
 		// validate input data types
-		if(!is_int($data['from_msisdn']))
-			response(200,'Invalid integer input');
-		if(!is_string($data['message']))
-			response(200,'Invalid string input');
-		if(!is_int($data['to_msisdn']))
-			response(200,'Invalid integer input');
+		if(!is_int($data['from_msisdn'])){
+			response(200,'Invalid integer input',[]);
+			return;
+		}
+		if(!is_string($data['message'])){
+			response(200,'Invalid string input',[]);
+			return;
+		}
+		if(!is_int($data['to_msisdn'])){
+			response(200,'Invalid integer input',[]);
+			return;
+		}
 
 		// if data has more than 4 inputs, that means extra fields are in the request as well
 		if(count($data) > 4){
 			// check if field_map variable is available
-			if(!isset($data['field_map']))
+			if(!isset($data['field_map'])){
 				response(200,"field_map does not exist");
+				return;
+			}
 
 			// loop through all data to get extra fields
 			foreach($data as $key => $value){
@@ -63,19 +71,32 @@ if(isset($data['from_msisdn']) && isset($data['to_msisdn']) && isset($data['mess
 						// validate the key type
 						switch($type){
 							case 'boolean':
-								$check = is_bool($data[$key]) ? true : response(200,"Invalid boolean input.");
+								if(!is_bool($data[$key])){
+									response(200,"Invalid boolean input.",[]);
+									return;
+								} 
 							break;
 							case 'integer':
-								$check = is_int($data[$key]) ? true : response(200,"Invalid integer input");
+								if(!is_int($data[$key])){
+									response(200,"Invalid integer input");
+									return;
+								}
 							break;
 							case 'string':
-								$check = is_string($data[$key]) ? true : response(200,"Invalid string input");
+								if(!is_string($data[$key])){
+									response(200,"Invalid string input");
+									return;
+								}
 							break;
 							case 'float':
-								$check = is_float($data[$key]) ? true : response(200,"Invalid float input.");
+								if(!is_float($data[$key])){
+									response(200,"Invalid float input.");
+									return;
+								}
 							break;
 							default:
 							response(200,$type . " is not a valid type."); // type not found
+							return;
 						}
 					}else {
 						response(200, $key . " does not exist in field_map");
