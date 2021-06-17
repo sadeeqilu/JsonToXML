@@ -2,11 +2,6 @@
 
 require("vendor/autoload.php");
 
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *'); 
-header('Access-Control-Allow-Methods: GET');
-header('Access-Control-Max-Age: 1000');
-
 function test($data)
 {
     try{
