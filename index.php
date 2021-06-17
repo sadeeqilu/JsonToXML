@@ -58,14 +58,9 @@ if(!is_int($data['to_msisdn'])){
     return;
 }
 
-// if data has more than 4 inputs, that means extra fields are in the request as well
-if(count($data) > 4){
-    // check if field_map variable is available
-    if(!isset($data['field_map'])){
-        response(200,"field_map does not exist");
-        return;
-    }
 
+    // check if field_map variable is available
+if(isset($data['field_map'])){
     // loop through all data to get extra fields
     foreach($data as $key => $value){
         // if key is one the required fields or the field_map object, move to the next key
