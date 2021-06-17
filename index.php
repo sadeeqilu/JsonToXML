@@ -21,7 +21,7 @@ function arrayToXml($array, $parentkey="", $xml = false){
  }
 
  try{
- // get post data
+ 	// get post data
 	$data = json_decode(file_get_contents('php://input'),true);
  }catch(\Exception $e){
 	 response(500, $e->getMessage());
@@ -30,6 +30,7 @@ function arrayToXml($array, $parentkey="", $xml = false){
 
 // check if all required fields are available
 if(!isset($data['from_msisdn']) || !isset($data['to_msisdn']) || !isset($data['message'])){
+
 	// display error message for any first missing required field
 	if(!isset($data['from_msisdn']))
 		response(200,'from_msisdn field is required',[]);
@@ -38,9 +39,9 @@ if(!isset($data['from_msisdn']) || !isset($data['to_msisdn']) || !isset($data['m
 	elseif(!isset($data['message']))
 		response(200,'message field is required',[]);
 	return;
+	
 }
 try{
-
 	// validate input data types
 	if(!is_int($data['from_msisdn'])){
 		response(200,'Invalid integer input',[]);
@@ -73,7 +74,8 @@ try{
 				if(array_key_exists($key,$data['field_map'])){
 					// get the type of the field
 					$type = $data['field_map'][$key];
-					// validate the key type
+
+					// validate the key type (share with users this naming convention)
 					switch($type){
 						case 'boolean':
 							if(!is_bool($data[$key])){
@@ -105,6 +107,7 @@ try{
 					}
 				}else {
 					response(200, $key . " does not exist in field_map");
+					return;
 				}
 			}
 					
