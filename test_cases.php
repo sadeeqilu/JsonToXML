@@ -7,10 +7,6 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET');
 header('Access-Control-Max-Age: 1000');
 
-assert_options(ASSERT_ACTIVE, 1);
-assert_options(ASSERT_WARNING, 0);
-assert_options(ASSERT_QUIET_EVAL, 1);
-
 function test($data)
 {
     try{
@@ -31,7 +27,8 @@ function test($data)
     }
 }
 
-echo "Tests on JsonToXML API.";
+echo "Tests on JsonToXML API." .PHP_EOL;
+
 ignore_user_abort(true);
 $failed = 0;
 function my_assert_handler($file, $line, $code, $desc = null)
@@ -40,6 +37,10 @@ function my_assert_handler($file, $line, $code, $desc = null)
 }
 // Set up the callback
 assert_options(ASSERT_CALLBACK, 'my_assert_handler');
+assert_options(ASSERT_QUIET_EVAL, true);
+assert_options(ASSERT_ACTIVE,   true);
+assert_options(ASSERT_BAIL,     true);
+assert_options(ASSERT_WARNING,  false);
 
 //error path
 $data1 = [];
@@ -83,7 +84,7 @@ try{
     assert($test10["status_message"] == "Successfully completed process");
     assert($test11["status_message"] == "Successfully completed process");
 
-    echo "Failed test cases = ".$failed;
+    echo "Failed test cases = ".$failed . PHP_EOL;
 }catch(\Exception $exception){
     // show exception
     echo $exception->getMessage();
