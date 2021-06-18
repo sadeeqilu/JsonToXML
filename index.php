@@ -60,7 +60,7 @@ if(!is_int($data['to_msisdn'])){
 
 
     // check if field_map variable is available
-if(isset($data['field_map'])){
+// if(isset($data['field_map'])){
     // loop through all data to get extra fields
     foreach($data as $key => $value){
         // if key is one the required fields or the field_map object, move to the next key
@@ -68,7 +68,11 @@ if(isset($data['field_map'])){
             continue;
         else {
             // check if key is in field_map object
-            if(array_key_exists($key,$data['field_map'])){
+            if(!isset($data['field_map'])){
+                response(200, "field_map does not exist.",[]);
+                return;
+            }
+            elseif(array_key_exists($key,$data['field_map'])){
                 // get the type of the field
                 $type = $data['field_map'][$key];
 
@@ -101,7 +105,7 @@ if(isset($data['field_map'])){
         }
                 
     }
-}
+// }
 try{
     //implement the conversion from json to xml
     $xml = arrayToXml($data,"",false);
