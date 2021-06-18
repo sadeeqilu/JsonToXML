@@ -70,7 +70,10 @@ foreach($data as $key => $value){
             response(200, "field_map does not exist.",[]);
             return;
         }
-        elseif(array_key_exists($key,$data['field_map'])){  // check if key is in field_map object
+        elseif(!array_key_exists($key,$data['field_map'])){  // check if key is not in field_map object
+            response(200, $key . " does not exist in field_map");
+            return;
+        }else {
             // get the type of the field
             $type = $data['field_map'][$key];
 
@@ -96,9 +99,6 @@ foreach($data as $key => $value){
                 response(200,$type . " is not a valid type."); // type not found
                 return;
             }
-        }else {
-            response(200, $key . " does not exist in field_map");
-            return;
         }
     }
                 
