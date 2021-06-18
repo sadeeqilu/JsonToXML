@@ -59,52 +59,50 @@ if(!is_int($data['to_msisdn'])){
 }
 
 
-    // check if field_map variable is available
-// if(isset($data['field_map'])){
-    // loop through all data to get extra fields
-    foreach($data as $key => $value){
-        // if key is one the required fields or the field_map object, move to the next key
-        if($key == "from_msisdn" || $key == "to_msisdn" || $key == "message" || $key == "field_map")
-            continue;
-        else {
-            // check if key is in field_map object
-            if(!isset($data['field_map'])){
-                response(200, "field_map does not exist.",[]);
-                return;
-            }
-            elseif(array_key_exists($key,$data['field_map'])){
-                // get the type of the field
-                $type = $data['field_map'][$key];
-
-                // validate the key type (share with users this naming convention)
-                if($type == "boolean" && !is_bool($data[$key])){
-                    response(200,"Invalid boolean input.",[]);
-                    return;
-                } 
-                elseif($type == "integer" && !is_int($data[$key])){
-                    response(200,"Invalid integer input");
-                    return;
-                }
-                   
-                elseif($type == 'string' && !is_string($data[$key])){
-                    response(200,"Invalid string input");
-                    return;
-                }
-                elseif($type == "float" && !is_float($data[$key])){
-                    response(200,"Invalid float input.");
-                    return;
-                }
-                else{
-                    response(200,$type . " is not a valid type."); // type not found
-                    return;
-                }
-            }else {
-                response(200, $key . " does not exist in field_map");
-                return;
-            }
+// loop through all data to get extra fields
+foreach($data as $key => $value){
+    // if key is one the required fields or the field_map object, move to the next key
+    if($key == "from_msisdn" || $key == "to_msisdn" || $key == "message" || $key == "field_map")
+        continue;
+    else {
+         // check if field_map variable is available
+        if(!isset($data['field_map'])){
+            response(200, "field_map does not exist.",[]);
+            return;
         }
-                
+        elseif(array_key_exists($key,$data['field_map'])){  // check if key is in field_map object
+            // get the type of the field
+            $type = $data['field_map'][$key];
+
+            // validate the key type (share with users this naming convention)
+            if($type == "boolean" && !is_bool($data[$key])){
+                response(200,"Invalid boolean input.",[]);
+                return;
+            } 
+            elseif($type == "integer" && !is_int($data[$key])){
+                response(200,"Invalid integer input");
+                return;
+            }
+               
+            elseif($type == 'string' && !is_string($data[$key])){
+                response(200,"Invalid string input");
+                return;
+            }
+            elseif($type == "float" && !is_float($data[$key])){
+                response(200,"Invalid float input.");
+                return;
+            }
+            else{
+                response(200,$type . " is not a valid type."); // type not found
+                return;
+            }
+        }else {
+            response(200, $key . " does not exist in field_map");
+            return;
+        }
     }
+                
+}
 // }
 try{
     //implement the conversion from json to xml
