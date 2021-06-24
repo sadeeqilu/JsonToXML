@@ -109,10 +109,10 @@ After this, restart the Apache web server in order for your changes to be recogn
 
 <code>sudo systemctl restart apache2</code>
 
-## Set up virtual host
-<code> sudo mkdir /JsonToXML </code>
 
- Next, assign ownership of the directory with the $USER environment variable:
+## Create virtual host file and update it
+
+Next, assign ownership of the directory with the $USER environment variable:
 
 <code> sudo chown -R $USER:$USER /JsonToXML </code>
 
@@ -121,11 +121,6 @@ The permissions of your web roots should be correct if you haven’t modified yo
 <code>sudo chmod -R 755 /JsonToXML
 </code>
 
-Next, create a sample index.php page using nano or your favorite editor:
-
-<code>nano /JsonToXML/index.php </code>
-
-## Create virtual host file and update it
 
 In order for Apache to serve this content, it’s necessary to create a virtual host file with the correct directives. Instead of modifying the default configuration file located at /etc/apache2/sites-available/000-default.conf directly, let’s make a new one at /etc/apache2/sites-available/biggyjsontoxml.conf:
 
@@ -147,7 +142,7 @@ Paste in the following configuration block, which is similar to the default, but
 `</VirtualHost>`
 </code>
 
-Notice that we’ve updated the DocumentRoot to our new directory and ServerAdmin to an email that the your_domain site administrator can access. We’ve also added two directives: ServerName, which establishes the base domain that should match for this virtual host definition, and ServerAlias, which defines further names that should match as if they were the base name.
+Notice that we’ve updated the DocumentRoot to our new directory and ServerAdmin to an email that the biggyjsontoxml.com site administrator can access. We’ve also added two directives: ServerName, which establishes the base domain that should match for this virtual host definition, and ServerAlias, which defines further names that should match as if they were the base name.
 
 Save and close the file when you are finished.
 
