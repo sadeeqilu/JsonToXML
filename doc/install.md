@@ -2,13 +2,6 @@
 Describing how to host the json to xml application to run properly on the server.
 ---
 
-## Change user password
-To change password, you should enter the below code in the ssh terminal.
-
-<code> sudo passwd biggy </code>
-
-Then you will be prompted to enter the old password, then the new password and then finally confirm password.
-
 
 ## Install git.
 First of all, check and see if git is installed already.
@@ -23,8 +16,6 @@ Then,
 
 <code>sudo apt install git</code>
 
-
-## Install zerotier-cli
 
 ## Install apache
 
@@ -113,13 +104,13 @@ The permissions of your web roots should be correct if you haven’t modified yo
 
 Next, create a sample index.php page using nano or your favorite editor:
 
-<code>nano /var/www/your_domain/index.php </code>
+<code>nano /var/www/biggyjsontoxml/index.php </code>
 
 ## Create virtual host file and update it
 
-In order for Apache to serve this content, it’s necessary to create a virtual host file with the correct directives. Instead of modifying the default configuration file located at /etc/apache2/sites-available/000-default.conf directly, let’s make a new one at /etc/apache2/sites-available/your_domain.conf:
+In order for Apache to serve this content, it’s necessary to create a virtual host file with the correct directives. Instead of modifying the default configuration file located at /etc/apache2/sites-available/000-default.conf directly, let’s make a new one at /etc/apache2/sites-available/biggyjsontoxml.conf:
 
-<code> sudo nano /etc/apache2/sites-available/your_domain.conf </code>
+<code> sudo nano /etc/apache2/sites-available/biggyjsontoxml.conf </code>
 
 Paste in the following configuration block, which is similar to the default, but updated for our new directory and domain name:
 
@@ -128,9 +119,9 @@ Paste in the following configuration block, which is similar to the default, but
 `<VirtualHost *:80>`
 
     ServerAdmin webmaster@localhost
-    ServerName your_domain
-    ServerAlias www.your_domain
-    DocumentRoot /var/www/your_domain
+    ServerName biggyjsontoxml
+    ServerAlias www.biggyjsontoxml.com
+    DocumentRoot /var/www/biggyjsontoxml
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 
@@ -145,7 +136,7 @@ Save and close the file when you are finished.
 
 Let’s enable the file with the a2ensite tool:
 
-<code>sudo a2ensite your_domain.conf </code>
+<code>sudo a2ensite jsontoxml.conf </code>
 
 Disable the default site defined in 000-default.conf:
 
