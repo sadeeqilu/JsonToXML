@@ -37,7 +37,7 @@ Open /etc/hosts and
 add <code>10.235.153.44  gitea</code>
 
 ## Join network
-<code> zerotier-clie join >network_id< </code>
+<code> zerotier-cli join >network_id< </code>
 ## Ask for access to the network
 
 Contact admin to accept your request to join network.
