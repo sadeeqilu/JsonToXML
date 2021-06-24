@@ -2,7 +2,6 @@
 Describing how to host the json to xml application to run properly on the server.
 ---
 
-
 ## Install git.
 First of all, check and see if git is installed already.
 
@@ -32,20 +31,7 @@ add <code>10.235.153.44  gitea</code>
 ## Ask for access to the network
 
 Contact admin to accept your request to join network.
-## Install ssh
 
-The procedure to install a ssh server in Ubuntu Linux is as follows:
-
-1. Open the terminal application for Ubuntu desktop.
-For remote Ubuntu server you must use BMC or KVM or IPMI tool to get console access.
-
-2. Type <code>sudo apt-get install openssh-server</code> .
-
-3. Enable the ssh service by typing <code>sudo systemctl enable ssh</code> .
-
-4. Start the ssh service by typing <code>sudo systemctl start ssh</code> .
-
-5. Test it by login into the system using <code>ssh user@server-name</code>
 
 
 ## Install curl
@@ -57,8 +43,41 @@ For remote Ubuntu server you must use BMC or KVM or IPMI tool to get console acc
 
 <code>sudo apt install php libapache2-mod-php php-mysql</code>
 
+## Install composer
+
+* Now that we have php cli installed on our machine, we can download the composer installer with:
+
+    <code>php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" </code>
+
+* Next, we need to verify the data integrity of the script by comparing the script SHA-384 hash with the latest installer hash found on the Composer Public Keys / Signatures page.
+We will use the following wget command to download the expected signature of the latest Composer installer from the Composer’s Github page and store it in a variable named HASH:
+
+    <code> HASH="$(wget -q -O - https://composer.github.io/installer.sig)" </code>
+
+    Now run the following command to verify that the installation script is not corrupted:
+
+    <code> php -r "if (hash_file('SHA384', 'composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" </code>
+
+    If the hashes match, you will see the following output:
+
+    <code> Installer verified </code>
+
+* The following command will install Composer in the /usr/local/bin directory:
+
+    <code>sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer</code>
 ## Clone repository
-Clone the repo using ssh, generate ssh keys and deploy to the repo.
+Clone the JsonToXML repo using ssh, generate ssh keys and deploy to the repo.
+
+<code>git clone git@gitea:biggy/JsonToXML.git </code>
+
+Enter the cloned repo using:
+
+<code> cd JsonToXML </code>
+
+Run composer install to install the dependencies of the application using:
+
+<code> composer install </code>
+
 ## Edit /etc/apache2/mods-enabled/dir.conf, move index.php to the beginning of the list
 Type this to open and edit the file.
 
