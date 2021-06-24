@@ -110,20 +110,20 @@ After this, restart the Apache web server in order for your changes to be recogn
 <code>sudo systemctl restart apache2</code>
 
 ## Set up virtual host
-<code> sudo mkdir /var/www/your_domain </code>
+<code> sudo mkdir /JsonToXML </code>
 
  Next, assign ownership of the directory with the $USER environment variable:
 
-<code> sudo chown -R $USER:$USER /var/www/your_domain </code>
+<code> sudo chown -R $USER:$USER /JsonToXML </code>
 
 The permissions of your web roots should be correct if you haven’t modified your unmask value, but you can make sure by typing:
 
-<code>sudo chmod -R 755 /var/www/your_domain
+<code>sudo chmod -R 755 /JsonToXML
 </code>
 
 Next, create a sample index.php page using nano or your favorite editor:
 
-<code>nano /var/www/biggyjsontoxml/index.php </code>
+<code>nano /JsonToXML/index.php </code>
 
 ## Create virtual host file and update it
 
@@ -155,7 +155,7 @@ Save and close the file when you are finished.
 
 Let’s enable the file with the a2ensite tool:
 
-<code>sudo a2ensite jsontoxml.conf </code>
+<code>sudo a2ensite /config/jsontoxml.conf </code>
 
 Disable the default site defined in 000-default.conf:
 
