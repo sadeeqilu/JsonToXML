@@ -37,7 +37,7 @@ Open /etc/hosts and
 add <code>10.235.153.44  gitea</code>
 
 ## Join network
-<code> zerotier-cli join >network_id< </code>
+<code> zerotier-cli join `<network_id>` </code>
 ## Ask for access to the network
 
 Contact admin to accept your request to join network.
@@ -45,16 +45,16 @@ Contact admin to accept your request to join network.
 
 The procedure to install a ssh server in Ubuntu Linux is as follows:
 
-1.) Open the terminal application for Ubuntu desktop.
+1. Open the terminal application for Ubuntu desktop.
 For remote Ubuntu server you must use BMC or KVM or IPMI tool to get console access.
 
-2.) Type <code>sudo apt-get install openssh-server</code> .
+2. Type <code>sudo apt-get install openssh-server</code> .
 
-3.) Enable the ssh service by typing <code>sudo systemctl enable ssh</code> .
+3. Enable the ssh service by typing <code>sudo systemctl enable ssh</code> .
 
-4.) Start the ssh service by typing <code>sudo systemctl start ssh</code> .
+4. Start the ssh service by typing <code>sudo systemctl start ssh</code> .
 
-5.) Test it by login into the system using <code>ssh user@server-name</code>
+5. Test it by login into the system using <code>ssh user@server-name</code>
 
 
 ## Install curl
@@ -124,7 +124,9 @@ In order for Apache to serve this content, it’s necessary to create a virtual 
 Paste in the following configuration block, which is similar to the default, but updated for our new directory and domain name:
 
 <code>
->VirtualHost *:80<
+
+`<VirtualHost *:80>`
+
     ServerAdmin webmaster@localhost
     ServerName your_domain
     ServerAlias www.your_domain
@@ -132,7 +134,7 @@ Paste in the following configuration block, which is similar to the default, but
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 
->/VirtualHost<
+`</VirtualHost>`
 </code>
 
 Notice that we’ve updated the DocumentRoot to our new directory and ServerAdmin to an email that the your_domain site administrator can access. We’ve also added two directives: ServerName, which establishes the base domain that should match for this virtual host definition, and ServerAlias, which defines further names that should match as if they were the base name.
