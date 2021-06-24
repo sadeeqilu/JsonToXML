@@ -67,6 +67,7 @@ We will use the following wget command to download the expected signature of the
     <code>sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer</code>
 ## Clone repository
 Navigate to <code>/www/var</code> using <code> cd /var/www </code>
+
 Clone the JsonToXML repo using ssh, generate ssh keys and deploy to the repo.
 
 <code>git clone git@gitea:biggy/JsonToXML.git </code>
@@ -133,17 +134,26 @@ Paste in the following configuration block, which is similar to the default, but
 
 `<VirtualHost *:80>`
 
-    ServerAdmin webmaster@localhost
-    ServerName biggyjsontoxml
+    ServerAdmin biggy@206.189.122.11
+    ServerName biggyjsontoxml.com
     ServerAlias www.biggyjsontoxml.com
     DocumentRoot /var/www/biggyjsontoxml
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 
+    <Directory /var/www/JsonToXML>
+
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/cyford-test.com_error.log
+    CustomLog ${APACHE_LOG_DIR}/cyford-test.com_access.log combined
+
+
 `</VirtualHost>`
 </code>
-
-Notice that we’ve updated the DocumentRoot to our new directory and ServerAdmin to an email that the biggyjsontoxml.com site administrator can access. We’ve also added two directives: ServerName, which establishes the base domain that should match for this virtual host definition, and ServerAlias, which defines further names that should match as if they were the base name.
 
 Save and close the file when you are finished.
 
