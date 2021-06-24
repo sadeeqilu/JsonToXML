@@ -66,6 +66,7 @@ We will use the following wget command to download the expected signature of the
 
     <code>sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer</code>
 ## Clone repository
+Navigate to <code>/www/var</code> using <code> cd /var/www </code>
 Clone the JsonToXML repo using ssh, generate ssh keys and deploy to the repo.
 
 <code>git clone git@gitea:biggy/JsonToXML.git </code>
