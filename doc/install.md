@@ -80,38 +80,6 @@ Run composer install to install the dependencies of the application using:
 
 <code> composer install </code>
 
-## Edit /etc/apache2/mods-enabled/dir.conf, move index.php to the beginning of the list
-Type this to open and edit the file.
-
-<code>sudo nano /etc/apache2/mods-enabled/dir.conf</code>
-
-The contents of the file will look like this: 
-<code>
-
-    DirectoryIndex index.html index.cgi index.pl index.php 
-
-    index.xhtml index.htm
-
-</code>
-
-Move the PHP index file (highlighted above) to the first position after the DirectoryIndex specification, like this:
-
-<code>
-
-
-    DirectoryIndex 
-    index.php index.html index.cgi index.pl 
-    
-    index.xhtml index.htm
-
-
-</code>
-
-After this, restart the Apache web server in order for your changes to be recognized. Do this by typing this:
-
-<code>sudo systemctl restart apache2</code>
-
-
 ## Create virtual host file and update it
 
 Next, assign ownership of the directory with the $USER environment variable:
@@ -147,7 +115,7 @@ Paste in the following configuration block, which is similar to the default, but
         DirectoryIndex index.php
         Order allow,deny
 
-        
+
         Allow from all
     </Directory>
 
