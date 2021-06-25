@@ -7,11 +7,11 @@ First of all, check and see if git is installed already.
 
 <code>git --version</code>
 
-If you receive output similar to the following, then Git is already installed. 
+If you receive output similar to the following, otherwise Git is already installed. 
 
 <code> git version 2.25.1 </code>
 
-Then,
+Otherwise,
 
 <code>sudo apt install git</code>
 
