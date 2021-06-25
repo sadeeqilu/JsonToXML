@@ -66,7 +66,7 @@ We will use the following wget command to download the expected signature of the
 
     <code>sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer</code>
 ## Clone repository
-Navigate to <code>/www/var</code> using <code> cd /var/www </code>
+Navigate to <code>/usr/local/src</code> using <code> cd /usr/local/src </code>
 
 Clone the JsonToXML repo using ssh, generate ssh keys and deploy to the repo.
 
@@ -116,11 +116,11 @@ After this, restart the Apache web server in order for your changes to be recogn
 
 Next, assign ownership of the directory with the $USER environment variable:
 
-<code> sudo chown -R $USER:$USER /JsonToXML </code>
+<code> sudo chown -R $USER:$USER usr/local/src/JsonToXML </code>
 
 The permissions of your web roots should be correct if you haven’t modified your unmask value, but you can make sure by typing:
 
-<code>sudo chmod -R 755 /JsonToXML
+<code>sudo chmod -R 755 usr/local/src/JsonToXML
 </code>
 
 
@@ -133,7 +133,7 @@ Paste in the following configuration block, which is similar to the default, but
 <code>
 
 `<VirtualHost *:80>`
-
+    Alias /JsonToXML /usr/local/src/JsonToXML
     ServerAdmin biggy@206.189.122.11
     ServerName biggyjsontoxml.com
     ServerAlias www.biggyjsontoxml.com
@@ -142,14 +142,12 @@ Paste in the following configuration block, which is similar to the default, but
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 
     <Directory /var/www/JsonToXML>
-
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
+        Options FollowSymLinks
+        AllowOverride Limit Options FileInfo
+        DirectoryIndex index.php
+        Order allow,deny
+        Allow from all
     </Directory>
-
-    ErrorLog ${APACHE_LOG_DIR}/cyford-test.com_error.log
-    CustomLog ${APACHE_LOG_DIR}/cyford-test.com_access.log combined
 
 
 `</VirtualHost>`
