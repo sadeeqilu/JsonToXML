@@ -137,15 +137,17 @@ Paste in the following configuration block, which is similar to the default, but
     ServerAdmin biggy@206.189.122.11
     ServerName biggyjsontoxml.com
     ServerAlias www.biggyjsontoxml.com
-    DocumentRoot /var/www/biggyjsontoxml
+    DocumentRoot /usr/local/src/biggyjsontoxml
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-    <Directory /var/www/JsonToXML>
+    <Directory /usr/local/src/JsonToXML>
         Options FollowSymLinks
         AllowOverride Limit Options FileInfo
         DirectoryIndex index.php
         Order allow,deny
+
+        
         Allow from all
     </Directory>
 
@@ -159,7 +161,7 @@ Save and close the file when you are finished.
 
 Let’s enable the file with the a2ensite tool:
 
-<code>sudo a2ensite /config/jsontoxml.conf </code>
+<code>sudo a2ensite jsontoxml.conf </code>
 
 Disable the default site defined in 000-default.conf:
 
