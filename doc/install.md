@@ -7,7 +7,7 @@ First of all, check and see if git is installed already.
 
 <code>git --version</code>
 
-If you receive output similar to the following, otherwise Git is already installed. 
+If you receive output similar to the following, Git is already installed. 
 
 <code> git version 2.25.1 </code>
 
@@ -96,16 +96,18 @@ In order for Apache to serve this content, it’s necessary to create a virtual 
 
 <code> sudo nano /etc/apache2/sites-available/biggyjsontoxml.conf </code>
 
+<code> sudo nano /etc/apache2/sites-available/testbiggyjsontoxml.conf </code>
+
 Paste in the following configuration block, which is similar to the default, but updated for our new directory and domain name:
 
 <code>
 
 `<VirtualHost *:80>`
     Alias /JsonToXML /usr/local/src/JsonToXML
-    ServerAdmin biggy@206.189.122.11
+    ServerAdmin sadiq.yusuf.ilu@abcvyz.com
     ServerName biggyjsontoxml.com
     ServerAlias www.biggyjsontoxml.com
-    DocumentRoot /usr/local/src/biggyjsontoxml
+    DocumentRoot /usr/local/src/biggyjsontoxml/index.php
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 
@@ -125,11 +127,40 @@ Paste in the following configuration block, which is similar to the default, but
 
 Save and close the file when you are finished.
 
+<code>
+
+`<VirtualHost *:80>`
+    Alias /JsonToXML /usr/local/src/JsonToXML
+    ServerAdmin sadiq.yusuf.ilu@abcvyz.com
+    ServerName testbiggyjsontoxml.com
+    ServerAlias www.testbiggyjsontoxml.com
+    DocumentRoot /usr/local/src/biggyjsontoxml/test_cases.php
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    <Directory /usr/local/src/JsonToXML>
+        Options FollowSymLinks
+        AllowOverride Limit Options FileInfo
+        DirectoryIndex test_cases.php
+        Order allow,deny
+
+
+        Allow from all
+    </Directory>
+
+
+`</VirtualHost>`
+</code>
+
+Save and close the file when you are finished.
+
 ## Enable domain
 
-Let’s enable the file with the a2ensite tool:
+Let’s enable the files with the a2ensite tool:
 
-<code>sudo a2ensite jsontoxml.conf </code>
+<code>sudo a2ensite biggyjsontoxml.conf </code>
+
+<code>sudo a2ensite testbiggyjsontoxml.conf </code>
 
 Disable the default site defined in 000-default.conf:
 
