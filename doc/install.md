@@ -107,7 +107,7 @@ Paste in the following configuration block, which is similar to the default, but
     ServerAdmin sadiq.yusuf.ilu@abcvyz.com
     ServerName biggyjsontoxml.com
     ServerAlias www.biggyjsontoxml.com
-    DocumentRoot /usr/local/src/biggyjsontoxml/index.php
+    DocumentRoot /usr/local/src/JsonToXML/index.php
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 
@@ -134,7 +134,7 @@ Save and close the file when you are finished.
     ServerAdmin sadiq.yusuf.ilu@abcvyz.com
     ServerName testbiggyjsontoxml.com
     ServerAlias www.testbiggyjsontoxml.com
-    DocumentRoot /usr/local/src/biggyjsontoxml/test_cases.php
+    DocumentRoot /usr/local/src/JsonToXML/test_cases.php
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 
@@ -172,3 +172,49 @@ Restart Apache to implement your changes:
 <code>sudo systemctl restart apache2
 </code>
 
+## Update /etc/hosts
+
+Add the two domains to etc/hosts, open the file using 
+
+<code> sudo nano /etc/hosts </code>
+
+The file will look like this :
+
+<code>
+
+    127.0.1.1 1-biggy-dev-abcvyz 1-biggy-dev-abcvyz
+    127.0.0.1 localhost
+    10.235.153.44   gitea
+
+    # The following lines are desirable for IPv6 capable hosts`
+    ::1 ip6-localhost ip6-loopback
+    fe00::0 ip6-localnet
+    ff00::0 ip6-mcastprefix
+    ff02::1 ip6-allnodes
+    ff02::2 ip6-allrouters
+    ff02::3 ip6-allhosts
+
+</code>
+
+
+Update the file and add the urls for test and the application.
+
+<code>
+
+    127.0.1.1 1-biggy-dev-abcvyz 1-biggy-dev-abcvyz
+    127.0.0.1 localhost
+    10.235.153.44   gitea
+    206.189.122.11 biggyjsontoxml
+    206.189.122.11 testbiggyjsontoxml
+
+
+
+    # The following lines are desirable for IPv6 capable hosts
+    ::1 ip6-localhost ip6-loopback
+    fe00::0 ip6-localnet
+    ff00::0 ip6-mcastprefix
+    ff02::1 ip6-allnodes
+    ff02::2 ip6-allrouters
+    ff02::3 ip6-allhosts
+
+</code>
