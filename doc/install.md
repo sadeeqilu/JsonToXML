@@ -92,69 +92,11 @@ The permissions of your web roots should be correct if you haven’t modified yo
 </code>
 
 
-In order for Apache to serve this content, it’s necessary to create a virtual host file with the correct directives. Instead of modifying the default configuration file located at /etc/apache2/sites-available/000-default.conf directly, let’s make a new one at /etc/apache2/sites-available/biggyjsontoxml.conf:
+In order for Apache to serve this content, it’s necessary to create a virtual host file with the correct directives. Instead of modifying the default configuration file located at /etc/apache2/sites-available/000-default.conf directly, let’s make a symbolic link to use our file at /config/jsontoxml.conf and /config/testjsontoxml.conf.
 
-<code> sudo nano /etc/apache2/sites-available/biggyjsontoxml.conf </code>
+<code> sudo ln -s /usr/local/src/JsonToXML/config/jsontoxml /etc/apache2/sites-available/biggyjsontoxml.conf </code>
 
-<code> sudo nano /etc/apache2/sites-available/testbiggyjsontoxml.conf </code>
-
-Paste in the following configuration block, which is similar to the default, but updated for our new directory and domain name:
-
-<code>
-
-`<VirtualHost *:80>`
-
-    Alias /JsonToXML /usr/local/src/JsonToXML
-    ServerAdmin sadiq.yusuf.ilu@abcvyz.com
-    ServerName biggyjsontoxml.com
-    ServerAlias www.biggyjsontoxml.com
-    DocumentRoot /usr/local/src/JsonToXML/index.php
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-
-    <Directory /usr/local/src/JsonToXML>
-        Options FollowSymLinks
-        AllowOverride Limit Options FileInfo
-        DirectoryIndex index.php
-        Order allow,deny
-
-
-        Allow from all
-    </Directory>
-
-
-`</VirtualHost>`
-</code>
-
-Save and close the file when you are finished.
-
-<code>
-
-`<VirtualHost *:80>`
-
-    Alias /JsonToXML /usr/local/src/JsonToXML
-    ServerAdmin sadiq.yusuf.ilu@abcvyz.com
-    ServerName testbiggyjsontoxml.com
-    ServerAlias www.testbiggyjsontoxml.com
-    DocumentRoot /usr/local/src/JsonToXML/test_cases.php
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-
-    <Directory /usr/local/src/JsonToXML>
-        Options FollowSymLinks
-        AllowOverride Limit Options FileInfo
-        DirectoryIndex test_cases.php
-        Order allow,deny
-
-
-        Allow from all
-    </Directory>
-
-
-`</VirtualHost>`
-</code>
-
-Save and close the file when you are finished.
+<code> sudo ln -s /usr/local/src/JsonToXML/config/testjsontoxml /etc/apache2/sites-available/testbiggyjsontoxml.conf </code>
 
 ## Enable domain
 
