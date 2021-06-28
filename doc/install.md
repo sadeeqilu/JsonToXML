@@ -94,9 +94,9 @@ The permissions of your web roots should be correct if you haven’t modified yo
 
 In order for Apache to serve this content, it’s necessary to create a virtual host file with the correct directives. Instead of modifying the default configuration file located at /etc/apache2/sites-available/000-default.conf directly, let’s make a symbolic link to use our file at /config/jsontoxml.conf and /config/testjsontoxml.conf.
 
-<code> sudo ln -s /usr/local/src/JsonToXML/config/jsontoxml /etc/apache2/sites-available/biggyjsontoxml.conf </code>
+<code> sudo ln -s /usr/local/src/JsonToXML/config/jsontoxml.conf /etc/apache2/sites-available/biggyjsontoxml.conf </code>
 
-<code> sudo ln -s /usr/local/src/JsonToXML/config/testjsontoxml /etc/apache2/sites-available/testbiggyjsontoxml.conf </code>
+<code> sudo ln -s /usr/local/src/JsonToXML/config/testjsontoxml.conf /etc/apache2/sites-available/testbiggyjsontoxml.conf </code>
 
 ## Enable domain
 
