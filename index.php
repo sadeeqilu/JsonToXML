@@ -1,5 +1,20 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+chdir(__DIR__);
+require realpath("../vendor/autoload.php");
+
+putenv('abcvyzSilentTest=true');
+
+$config = new \abcvyz\lib\config(realpath("../logs/config.yaml"));
+
+$config = $configWithChannel->asArray();
+
+$log = new \abcvyz\lib\logger_v21($config);
+
 //recursive function for changing json data to xml
 function arrayToXml($array, $parentkey="", $xml = false){
 
@@ -24,6 +39,7 @@ try{
     // get post data
     $data = json_decode(file_get_contents('php://input'),true);
 }catch(\Exception $e){
+    $log->critical($e->getMessage());
     response(200, "Exception error.",[]);
 }
 
@@ -109,6 +125,7 @@ try{
     $xml = arrayToXml($data,"",false);
     response(200, "Successfully completed process", $xml);
 }catch(\Exception $e){
+    $log->critical($e->getMessage());
     // display exception/error message
     response(200, "Exception error.",[]);
 }
