@@ -1,9 +1,9 @@
 {
     "require": {
         "guzzlehttp/guzzle": "^7.0",
-        "abcvyz/logger": "^2.x-dev",
-        "abcvyz/config": "^2.x-dev",
-        "abcvyz/yamlx": "^2.x-dev"
+        "abcvyz/logger": "2.x-dev",
+        "abcvyz/config": "2.x-dev",
+        "abcvyz/yamlx": "2.x-dev"
         },
     "autoload": {
         "psr-4": {

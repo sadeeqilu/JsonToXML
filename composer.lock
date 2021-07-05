@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ea66d758f8c3c0902e1c1fa19e2f28a3",
+    "content-hash": "cf56c5fbb29f170d7c1cc216703be6e5",
     "packages": [
         {
             "name": "abcvyz/config",
@@ -601,12 +601,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "5c9d9bf43e3328c7d38e14ae8e53782967109984"
+                "reference": "0f7b11d38353e9e8a1cae0f7122b79d11c3ff239"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/5c9d9bf43e3328c7d38e14ae8e53782967109984",
-                "reference": "5c9d9bf43e3328c7d38e14ae8e53782967109984",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/0f7b11d38353e9e8a1cae0f7122b79d11c3ff239",
+                "reference": "0f7b11d38353e9e8a1cae0f7122b79d11c3ff239",
                 "shasum": ""
             },
             "require": {
@@ -690,7 +690,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-28T08:33:21+00:00"
+            "time": "2021-07-04T12:16:21+00:00"
         },
         {
             "name": "psr/http-client",
