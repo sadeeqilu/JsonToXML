@@ -5,13 +5,13 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 chdir(__DIR__);
-require realpath("../vendor/autoload.php");
+require "vendor/autoload.php";
 
 putenv('abcvyzSilentTest=true');
 
-$config = new \abcvyz\lib\config(realpath("../logs/config.yaml"));
+$config = new \abcvyz\lib\config(realpath("logs/config.yaml"));
 
-$config = $configWithChannel->asArray();
+$config = $config->asArray();
 
 $log = new \abcvyz\lib\logger_v21($config);
 
