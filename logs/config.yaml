@@ -1,43 +1,19 @@
-name: Test Json to XML
-channelName: TestCases
+name: jsontoxml
 timeZone: GMT
 captureSystemErrors: true
-instanceNumber: testInstanceNumber
-
+include_caller: true
 channels:
   stdOut: 
-    channelName: test1
-    logLevel: 100  
-    bubble: true
-    directory: ./
-    fileName: testLog.log 
-    filepath: ./logs/logs.log 
-    filePermission: null
-    useLocking: false
-    ChannelConfig: 
-      fileName: logs.log
-      filePath: ${default.channels.fileLog.handler.directory}/${default.channels.fileLog.handler.fileName}
+      logLevel: 250  
+      bubble: false
+      filepath: ./logs/logs.log 
       filePermission: null
-      useLocking: false
-      logLevel: 100  
-      bubble: true
-    format: 
-      textFormat : "%datetime%\t%level_name%\t%message%\t%context%\t%extra%\n"
-      datetimeFormat: "Y-m-d\\TH:i:s.uO"
-      allowInlineLineBreaks: true
-      ignoreEmptyContextAndExtra: true
-      includeStacktraces: true # Change to false in production
-      abcvyz_dumpTraceLevel: 0 # Populate the extra field with debug_backtrace
-      isColored: false
-    extra:
-      instanceNumber: testInstanceNumber
-    fileLog:
-    abcvyz_channelName: file
-    handler: 
-      logLevel: 100  
-      bubble: true
-      directory: ./
-      fileName: logs.log 
-      filePath: ${channels.fileLog.handler.directory}/${channels.fileLog.handler.fileName} 
-      filePermission: null
-      useLocking: false
+      useLocking: true
+      format: 
+        textFormat : "%datetime%\t%level_name%\t%message%\t%context%\t%extra%\n"
+        datetimeFormat: "Y-m-d\\TH:i:s.uO"
+        allowInlineBreaks: true
+        ignoreEmptyContextAndExtra: true
+        includeStacktraces: true # Change to false in production
+        isColored: false
+
